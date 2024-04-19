@@ -1,0 +1,3 @@
+BackendAPI/bin/*
+BackendAPI/obj/*
+*.Development.json
