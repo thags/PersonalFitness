@@ -16,6 +16,14 @@ namespace BackendAPI.Repository
         {
             _context = context;
         }
+
+        public async Task<ExerciseNote> CreateAsync(ExerciseNote exerciseNote)
+        {
+            await _context.AddAsync(exerciseNote);
+            await _context.SaveChangesAsync();
+            return exerciseNote;
+        }
+
         public async Task<List<ExerciseNote>> GetAllAsync()
         {
             return await _context.ExerciseNotes.ToListAsync();

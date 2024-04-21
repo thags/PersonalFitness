@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendAPI.Dtos.ExerciseNote;
 using BackendAPI.Interfaces;
 using BackendAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,11 @@ namespace BackendAPI.Controllers
     public class ExerciseNoteController : ControllerBase
     {
         private readonly IExerciseNoteRepository _noteRepo;
-        public ExerciseNoteController(IExerciseNoteRepository noteRepo)
+        private readonly IExerciseRepository _exerciseRepo;
+        public ExerciseNoteController(IExerciseNoteRepository noteRepo, IExerciseRepository exerciseRepo)
         {
             _noteRepo = noteRepo;
+            _exerciseRepo = exerciseRepo;
         }
 
         [HttpGet]
@@ -34,6 +37,18 @@ namespace BackendAPI.Controllers
             if (note == null) return NotFound();
 
             return Ok(note.ToNoteDto());
+        }
+
+        [HttpPost("{exerciseId}")]
+        public async Task<IActionResult> Create([FromRoute] int exerciseId, [FromBody] CreateNoteDto noteDto)
+        {
+            if (!await _exerciseRepo.ExerciseExists(exerciseId))
+                return BadRequest("Exercise does not exist");
+
+            var note = noteDto.ToNoteFromCreate(exerciseId);
+            await _noteRepo.CreateAsync(note);
+
+            return CreatedAtAction(nameof(GetById), new { id = note.Id }, note.ToNoteDto());
         }
     }
 }

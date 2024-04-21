@@ -14,5 +14,6 @@ namespace BackendAPI.Interfaces
         Task<Exercise> CreateAsync(Exercise exercise);
         Task<Exercise?> UpdateAsync(int id, UpdateExerciseRequestDto exerciseDto);
         Task<Exercise?> DeleteAsync(int id);
+        Task<bool> ExerciseExists(int id);
     }
 }

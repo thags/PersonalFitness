@@ -11,6 +11,7 @@ namespace BackendAPI.Interfaces
     {
         Task<List<ExerciseNote>> GetAllAsync();
         Task<ExerciseNote?> GetByIdAsync(int id);
+        Task<ExerciseNote> CreateAsync(ExerciseNote exerciseNote);
 
     }
 }

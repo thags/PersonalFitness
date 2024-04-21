@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BackendAPI.Dtos.Exercise;
 using BackendAPI.Dtos.ExerciseNote;
 using BackendAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackendAPI.Mappers
 {
@@ -17,6 +18,15 @@ namespace BackendAPI.Mappers
                 Id = exerciseNote.Id,
                 Note = exerciseNote.Note,
                 CreatedOn = exerciseNote.CreatedOn
+            };
+        }
+
+        public static ExerciseNote ToNoteFromCreate(this CreateNoteDto noteDto, int exerciseId)
+        {
+            return new ExerciseNote
+            {
+                Note = noteDto.Note,
+                ExerciseId = exerciseId
             };
         }
     }
