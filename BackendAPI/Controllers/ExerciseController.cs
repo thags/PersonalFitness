@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Data;
 using BackendAPI.Dtos.Exercise;
+using BackendAPI.Interfaces;
 using BackendAPI.Mappers;
 using BackendAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,17 @@ namespace BackendAPI.Controllers
     public class ExerciseController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public ExerciseController(ApplicationDBContext context)
+        private readonly IExerciseRepository _exerciseRepository;
+        public ExerciseController(ApplicationDBContext context, IExerciseRepository exerciseRepository)
         {
             _context = context;
+            _exerciseRepository = exerciseRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var exercises = await _context.Exercises.ToListAsync();
+            var exercises = await _exerciseRepository.GetAllAsync();
             var exesciseDto = exercises.Select(x => x.ToExerciseDto());
 
             return Ok(exesciseDto);
@@ -33,7 +36,7 @@ namespace BackendAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var exercise = await _context.Exercises.FindAsync(id);
+            var exercise = await _exerciseRepository.GetByIdAsync(id);
             if (exercise == null) return NotFound();
 
             return Ok(exercise.ToExerciseDto());
@@ -43,8 +46,7 @@ namespace BackendAPI.Controllers
         public async Task<IActionResult> Create([FromBody] CreateExerciseRequestDto exerciseToAdd)
         {
             var exercise = exerciseToAdd.ToExerciseFromCreateDto();
-            await _context.Exercises.AddAsync(exercise);
-            await _context.SaveChangesAsync();
+            await _exerciseRepository.CreateAsync(exercise);
 
             return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise.ToExerciseDto());
         }
@@ -53,13 +55,9 @@ namespace BackendAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateExerciseRequestDto updateExercise)
         {
-            var exercise = await _context.Exercises.FirstOrDefaultAsync(x => x.Id == id);
+            var exercise = await _exerciseRepository.UpdateAsync(id, updateExercise);
             if (exercise == null) return NotFound();
 
-            exercise.Name = updateExercise.Name;
-            exercise.Instruction = updateExercise.Instruction;
-
-            await _context.SaveChangesAsync();
             return Ok(exercise.ToExerciseDto());
         }
 
@@ -67,15 +65,10 @@ namespace BackendAPI.Controllers
         [Route("id")]
         public async Task<IActionResult> Delete([FromQuery] int id)
         {
-            var exercise = await _context.Exercises.FirstOrDefaultAsync(x => x.Id == id);
+            var exercise = await _exerciseRepository.DeleteAsync(id);
             if (exercise == null) return NotFound();
-            _context.Exercises.Remove(exercise);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
-
-
-
     }
 }
