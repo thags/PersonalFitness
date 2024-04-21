@@ -7,6 +7,7 @@ using BackendAPI.Dtos.Exercise;
 using BackendAPI.Mappers;
 using BackendAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackendAPI.Controllers
 {
@@ -21,54 +22,55 @@ namespace BackendAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var exercises = _context.Exercises.ToList()
-                .Select(x => x.ToExerciseDto());
+            var exercises = await _context.Exercises.ToListAsync();
+            var exesciseDto = exercises.Select(x => x.ToExerciseDto());
 
-            return Ok(exercises);
+            return Ok(exesciseDto);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var exercise = _context.Exercises.Find(id);
+            var exercise = await _context.Exercises.FindAsync(id);
             if (exercise == null) return NotFound();
 
             return Ok(exercise.ToExerciseDto());
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateExerciseRequestDto exerciseToAdd)
+        public async Task<IActionResult> Create([FromBody] CreateExerciseRequestDto exerciseToAdd)
         {
             var exercise = exerciseToAdd.ToExerciseFromCreateDto();
-            _context.Exercises.Add(exercise);
-            _context.SaveChanges();
+            await _context.Exercises.AddAsync(exercise);
+            await _context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise.ToExerciseDto());
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateExerciseRequestDto updateExercise)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateExerciseRequestDto updateExercise)
         {
-            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == id);
+            var exercise = await _context.Exercises.FirstOrDefaultAsync(x => x.Id == id);
             if (exercise == null) return NotFound();
 
             exercise.Name = updateExercise.Name;
             exercise.Instruction = updateExercise.Instruction;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(exercise.ToExerciseDto());
         }
 
         [HttpDelete]
         [Route("id")]
-        public IActionResult Delete([FromQuery] int id)
+        public async Task<IActionResult> Delete([FromQuery] int id)
         {
-            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == id);
+            var exercise = await _context.Exercises.FirstOrDefaultAsync(x => x.Id == id);
             if (exercise == null) return NotFound();
             _context.Exercises.Remove(exercise);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
