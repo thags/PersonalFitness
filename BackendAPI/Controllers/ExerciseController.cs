@@ -33,11 +33,7 @@ namespace BackendAPI.Controllers
         public IActionResult GetById([FromRoute] int id)
         {
             var exercise = _context.Exercises.Find(id);
-
-            if (exercise == null)
-            {
-                return NotFound();
-            }
+            if (exercise == null) return NotFound();
 
             return Ok(exercise.ToExerciseDto());
         }
@@ -50,5 +46,34 @@ namespace BackendAPI.Controllers
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise.ToExerciseDto());
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateExerciseRequestDto updateExercise)
+        {
+            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == id);
+            if (exercise == null) return NotFound();
+
+            exercise.Name = updateExercise.Name;
+            exercise.Instruction = updateExercise.Instruction;
+
+            _context.SaveChanges();
+            return Ok(exercise.ToExerciseDto());
+        }
+
+        [HttpDelete]
+        [Route("id")]
+        public IActionResult Delete([FromQuery] int id)
+        {
+            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == id);
+            if (exercise == null) return NotFound();
+            _context.Exercises.Remove(exercise);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
+
+
     }
 }
