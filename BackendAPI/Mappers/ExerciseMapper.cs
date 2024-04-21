@@ -16,6 +16,7 @@ namespace BackendAPI.Mappers
                 Id = exerciseModel.Id,
                 Name = exerciseModel.Name,
                 Instruction = exerciseModel.Instruction,
+                Notes = exerciseModel.Notes.Select(x => x.ToNoteDto()).ToList(),
             };
         }
 

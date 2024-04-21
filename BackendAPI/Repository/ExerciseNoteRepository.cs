@@ -20,5 +20,12 @@ namespace BackendAPI.Repository
         {
             return await _context.ExerciseNotes.ToListAsync();
         }
+
+        public async Task<ExerciseNote?> GetByIdAsync(int id)
+        {
+            var note = await _context.ExerciseNotes.FindAsync(id);
+            if (note == null) return null;
+            return note;
+        }
     }
 }

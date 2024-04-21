@@ -26,5 +26,14 @@ namespace BackendAPI.Controllers
 
             return Ok(noteDto);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var note = await _noteRepo.GetByIdAsync(id);
+            if (note == null) return NotFound();
+
+            return Ok(note.ToNoteDto());
+        }
     }
 }
