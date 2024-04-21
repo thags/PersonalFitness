@@ -18,5 +18,14 @@ namespace BackendAPI.Mappers
                 Instruction = exerciseModel.Instruction,
             };
         }
+
+        public static Exercise ToExerciseFromCreateDto(this CreateExerciseRequestDto exerciseRequest)
+        {
+            return new Exercise
+            {
+                Name = exerciseRequest.Name,
+                Instruction = exerciseRequest.Instruction,
+            };
+        }
     }
 }
