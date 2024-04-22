@@ -50,5 +50,24 @@ namespace BackendAPI.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = note.Id }, note.ToNoteDto());
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateNoteRequestDto updateNote)
+        {
+            var note = await _noteRepo.UpdateAsync(id, updateNote.ToNoteFromUpdate());
+            if (note == null) return NotFound("Note not found");
+
+            return Ok(note.ToNoteDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var note = await _noteRepo.DeleteAsync(id);
+            if (note == null) return NotFound("Note not found");
+            return Ok(note.ToNoteDto());
+        }
     }
 }

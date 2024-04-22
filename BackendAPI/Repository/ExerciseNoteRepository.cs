@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BackendAPI.Data;
 using BackendAPI.Interfaces;
 using BackendAPI.Models;
@@ -24,6 +20,16 @@ namespace BackendAPI.Repository
             return exerciseNote;
         }
 
+        public async Task<ExerciseNote?> DeleteAsync(int id)
+        {
+            var exerciseNote = await _context.ExerciseNotes.FirstOrDefaultAsync(x => x.Id == id);
+            if (exerciseNote == null) return null;
+
+            _context.ExerciseNotes.Remove(exerciseNote);
+            await _context.SaveChangesAsync();
+            return exerciseNote;
+        }
+
         public async Task<List<ExerciseNote>> GetAllAsync()
         {
             return await _context.ExerciseNotes.ToListAsync();
@@ -33,6 +39,17 @@ namespace BackendAPI.Repository
         {
             var note = await _context.ExerciseNotes.FindAsync(id);
             if (note == null) return null;
+            return note;
+        }
+
+        public async Task<ExerciseNote?> UpdateAsync(int id, ExerciseNote exerciseNote)
+        {
+            var note = await _context.ExerciseNotes.FindAsync(id);
+            if (note == null) return null;
+
+            note.Note = exerciseNote.Note;
+
+            await _context.SaveChangesAsync();
             return note;
         }
     }

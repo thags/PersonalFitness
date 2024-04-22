@@ -29,5 +29,13 @@ namespace BackendAPI.Mappers
                 ExerciseId = exerciseId
             };
         }
+
+        public static ExerciseNote ToNoteFromUpdate(this UpdateNoteRequestDto noteDto)
+        {
+            return new ExerciseNote
+            {
+                Note = noteDto.Note
+            };
+        }
     }
 }
