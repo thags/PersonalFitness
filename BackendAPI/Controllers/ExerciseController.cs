@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BackendAPI.Data;
 using BackendAPI.Dtos.Exercise;
 using BackendAPI.Interfaces;
 using BackendAPI.Mappers;
-using BackendAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BackendAPI.Controllers
 {
@@ -27,15 +21,19 @@ namespace BackendAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var exercises = await _exerciseRepository.GetAllAsync();
             var exesciseDto = exercises.Select(x => x.ToExerciseDto());
 
             return Ok(exesciseDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var exercise = await _exerciseRepository.GetByIdAsync(id);
             if (exercise == null) return NotFound();
 
@@ -45,6 +43,8 @@ namespace BackendAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExerciseRequestDto exerciseToAdd)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var exercise = exerciseToAdd.ToExerciseFromCreateDto();
             await _exerciseRepository.CreateAsync(exercise);
 
@@ -52,9 +52,11 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateExerciseRequestDto updateExercise)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var exercise = await _exerciseRepository.UpdateAsync(id, updateExercise);
             if (exercise == null) return NotFound();
 
@@ -62,9 +64,11 @@ namespace BackendAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("id")]
+        [Route("id:int")]
         public async Task<IActionResult> Delete([FromQuery] int id)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var exercise = await _exerciseRepository.DeleteAsync(id);
             if (exercise == null) return NotFound();
 
