@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BackendAPI.Dtos.ExerciseNote;
 using BackendAPI.Interfaces;
 using BackendAPI.Mappers;
@@ -30,18 +26,22 @@ namespace BackendAPI.Controllers
             return Ok(noteDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var note = await _noteRepo.GetByIdAsync(id);
             if (note == null) return NotFound();
 
             return Ok(note.ToNoteDto());
         }
 
-        [HttpPost("{exerciseId}")]
+        [HttpPost("{exerciseId:int}")]
         public async Task<IActionResult> Create([FromRoute] int exerciseId, [FromBody] CreateNoteDto noteDto)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             if (!await _exerciseRepo.ExerciseExists(exerciseId))
                 return BadRequest("Exercise does not exist");
 
@@ -52,9 +52,11 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateNoteRequestDto updateNote)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var note = await _noteRepo.UpdateAsync(id, updateNote.ToNoteFromUpdate());
             if (note == null) return NotFound("Note not found");
 
@@ -62,9 +64,11 @@ namespace BackendAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var note = await _noteRepo.DeleteAsync(id);
             if (note == null) return NotFound("Note not found");
             return Ok(note.ToNoteDto());
