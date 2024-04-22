@@ -35,14 +35,21 @@ namespace BackendAPI.Repository
             return exercise;
         }
 
+        public async Task<bool> ExerciseExists(int id)
+        {
+            return await _context.Exercises.AnyAsync(x => x.Id == id);
+        }
+
         public async Task<List<Exercise>> GetAllAsync()
         {
-            return await _context.Exercises.ToListAsync();
+            return await _context.Exercises.Include(x => x.Notes).ToListAsync();
         }
 
         public async Task<Exercise?> GetByIdAsync(int id)
         {
-            return await _context.Exercises.FindAsync(id);
+            return await _context.Exercises
+                .Include(x => x.Notes)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Exercise?> UpdateAsync(int id, UpdateExerciseRequestDto exerciseDto)
