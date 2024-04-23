@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendAPI.Data;
 using BackendAPI.Dtos.Exercise;
+using BackendAPI.Helpers;
 using BackendAPI.Interfaces;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -40,9 +41,21 @@ namespace BackendAPI.Repository
             return await _context.Exercises.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<List<Exercise>> GetAllAsync()
+        public async Task<List<Exercise>> GetAllAsync(QueryObject query)
         {
-            return await _context.Exercises.Include(x => x.Notes).ToListAsync();
+            var exercises = _context.Exercises.Include(x => x.Notes).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.ExerciseName))
+            {
+                exercises = exercises.Where(x => x.Name.Contains(query.ExerciseName));
+            }
+
+            if (query.RepType != null)
+            {
+                exercises = exercises.Where(x => x.RepType == query.RepType);
+            }
+
+            return await exercises.ToListAsync();
         }
 
         public async Task<Exercise?> GetByIdAsync(int id)

@@ -1,5 +1,6 @@
 using BackendAPI.Data;
 using BackendAPI.Dtos.Exercise;
+using BackendAPI.Helpers;
 using BackendAPI.Interfaces;
 using BackendAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,11 @@ namespace BackendAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var exercises = await _exerciseRepository.GetAllAsync();
+            var exercises = await _exerciseRepository.GetAllAsync(query);
             var exesciseDto = exercises.Select(x => x.ToExerciseDto());
 
             return Ok(exesciseDto);

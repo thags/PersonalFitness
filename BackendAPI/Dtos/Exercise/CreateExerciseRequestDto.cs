@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using BackendAPI.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace BackendAPI.Dtos.Exercise
 {
