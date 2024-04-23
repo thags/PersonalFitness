@@ -38,6 +38,9 @@ namespace BackendAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RepType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Exercises");

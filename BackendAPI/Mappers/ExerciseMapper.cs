@@ -15,6 +15,7 @@ namespace BackendAPI.Mappers
             {
                 Id = exerciseModel.Id,
                 Name = exerciseModel.Name,
+                RepType = exerciseModel.RepType,
                 Instruction = exerciseModel.Instruction,
                 Notes = exerciseModel.Notes.Select(x => x.ToNoteDto()).ToList(),
             };
@@ -25,6 +26,7 @@ namespace BackendAPI.Mappers
             return new Exercise
             {
                 Name = exerciseRequest.Name,
+                RepType = exerciseRequest.RepType,
                 Instruction = exerciseRequest.Instruction,
             };
         }
