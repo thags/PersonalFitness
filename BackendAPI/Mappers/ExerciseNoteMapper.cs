@@ -1,40 +1,51 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BackendAPI.Dtos.Exercise;
-using BackendAPI.Dtos.ExerciseNote;
+using BackendAPI.Dtos.ExerciseHistory;
 using BackendAPI.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace BackendAPI.Mappers
 {
     public static class ExerciseNoteMapper
     {
-        public static ExerciseNoteDto ToNoteDto(this ExerciseNote exerciseNote)
+        public static ExerciseHistoryDto ToHistoryDto(this ExerciseHistory exerciseHistory)
         {
-            return new ExerciseNoteDto
+            return new ExerciseHistoryDto
             {
-                Id = exerciseNote.Id,
-                Note = exerciseNote.Note,
-                CreatedOn = exerciseNote.CreatedOn
+                Id = exerciseHistory.Id,
+                Note = exerciseHistory.Note,
+                CreatedOn = exerciseHistory.CreatedOn,
+                ExerciseId = exerciseHistory.ExerciseId,
+                sets = exerciseHistory.sets,
+                reps = exerciseHistory.reps,
+                DurationInMinutes = exerciseHistory.DurationInMinutes,
+                Weight = exerciseHistory.Weight,
+                Distance = exerciseHistory.Distance,
             };
         }
 
-        public static ExerciseNote ToNoteFromCreate(this CreateNoteDto noteDto, int exerciseId)
+        public static ExerciseHistory ToHistoryFromCreate(this CreateHistoryDto historyDTO, int exerciseId)
         {
-            return new ExerciseNote
+            return new ExerciseHistory
             {
-                Note = noteDto.Note,
-                ExerciseId = exerciseId
+                Note = historyDTO.Note,
+                ExerciseId = exerciseId,
+                sets = historyDTO.sets,
+                reps = historyDTO.reps,
+                DurationInMinutes = historyDTO.DurationInMinutes,
+                Weight = historyDTO.Weight,
+                Distance = historyDTO.Distance,
             };
         }
 
-        public static ExerciseNote ToNoteFromUpdate(this UpdateNoteRequestDto noteDto)
+        public static ExerciseHistory ToHistoryFromUpdate(this UpdateHistoryRequestDto historyDTO)
         {
-            return new ExerciseNote
+            return new ExerciseHistory
             {
-                Note = noteDto.Note
+                Note = historyDTO.Note,
+                sets = historyDTO.sets,
+                reps = historyDTO.reps,
+                DurationInMinutes = historyDTO.DurationInMinutes,
+                Weight = historyDTO.Weight,
+                Distance = historyDTO.Distance,
             };
         }
     }
