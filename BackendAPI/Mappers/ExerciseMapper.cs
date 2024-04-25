@@ -17,7 +17,7 @@ namespace BackendAPI.Mappers
                 Name = exerciseModel.Name,
                 RepType = exerciseModel.RepType,
                 Instruction = exerciseModel.Instruction,
-                Notes = exerciseModel.Notes.Select(x => x.ToNoteDto()).ToList(),
+                History = exerciseModel.ExerciseHistory.Select(x => x.ToHistoryDto()).ToList(),
             };
         }
 

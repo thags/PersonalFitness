@@ -43,7 +43,7 @@ namespace BackendAPI.Repository
 
         public async Task<List<Exercise>> GetAllAsync(QueryObject query)
         {
-            var exercises = _context.Exercises.Include(x => x.Notes).AsQueryable();
+            var exercises = _context.Exercises.Include(x => x.ExerciseHistory).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.ExerciseName))
             {
@@ -61,7 +61,7 @@ namespace BackendAPI.Repository
         public async Task<Exercise?> GetByIdAsync(int id)
         {
             return await _context.Exercises
-                .Include(x => x.Notes)
+                .Include(x => x.ExerciseHistory)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 

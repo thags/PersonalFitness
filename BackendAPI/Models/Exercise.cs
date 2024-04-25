@@ -8,6 +8,6 @@ namespace BackendAPI.Models
         public string Name { get; set; } = string.Empty;
         public string Instruction { get; set; } = string.Empty;
         public RepType RepType { get; set; } = RepType.Reps;
-        public List<ExerciseNote> Notes { get; set; } = new List<ExerciseNote>();
+        public List<ExerciseHistory> ExerciseHistory { get; set; } = new List<ExerciseHistory>();
     }
 }
