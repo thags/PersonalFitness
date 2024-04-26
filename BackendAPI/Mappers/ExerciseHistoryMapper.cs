@@ -13,7 +13,6 @@ namespace BackendAPI.Mappers
                 Id = exerciseHistory.Id,
                 Note = exerciseHistory.Note,
                 CreatedOn = exerciseHistory.CreatedOn,
-                ExerciseId = exerciseHistory.ExerciseId,
                 sets = exerciseHistory.sets,
                 reps = exerciseHistory.reps,
                 DurationInMinutes = exerciseHistory.DurationInMinutes,
