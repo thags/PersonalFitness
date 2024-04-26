@@ -1,0 +1,20 @@
+using BackendAPI.Dtos.Workout;
+using BackendAPI.Models;
+
+namespace BackendAPI.Mappers
+{
+    public static class WorkoutMapper
+    {
+        public static WorkoutDto ToWorkoutDto(this Workout workout)
+        {
+            return new WorkoutDto
+            {
+                Id = workout.Id,
+                Name = workout.Name,
+                Description = workout.Description,
+                Note = workout.Note,
+                WorkoutExercises = workout.WorkoutExercises.Select(we => we.ToWorkoutExerciseDto()).ToList()
+            };
+        }
+    }
+}

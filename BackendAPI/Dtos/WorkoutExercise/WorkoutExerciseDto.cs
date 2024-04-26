@@ -1,13 +1,13 @@
+using BackendAPI.Enums;
 
-namespace BackendAPI.Models
+namespace BackendAPI.Dtos.WorkoutExercise
 {
-    public class WorkoutExercise
+    public class WorkoutExerciseDto
     {
-        public int Id { get; set; }
-        public int WorkoutId { get; set; }
-        public Workout? Workout { get; set; }
         public int ExerciseId { get; set; }
-        public Exercise? Exercise { get; set; }
+        public string Name { get; set; }
+        public string? Instruction { get; set; }
+        public RepType RepType { get; set; }
         public int Sets { get; set; } = 1;
         public int? Reps { get; set; } = 1;
         public int? DurationInMinutes { get; set; }
