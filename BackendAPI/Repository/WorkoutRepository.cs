@@ -29,8 +29,10 @@ namespace BackendAPI.Repository
 
         public async Task<List<Workout>> GetAllAsync()
         {
-            var workouts = _context.Workouts.Include(x => x.WorkoutExercises);
-            return await workouts.ToListAsync();
+            return await _context.Workouts
+                .Include(x => x.WorkoutExercises)
+                .ThenInclude(exercises => exercises.Exercise)
+                .ToListAsync();
         }
 
         public async Task<Workout?> GetByIdAsync(int id)
