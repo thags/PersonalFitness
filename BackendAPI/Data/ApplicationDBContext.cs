@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,5 +12,6 @@ namespace BackendAPI.Data
 
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseHistory> ExerciseHistories { get; set; }
+        public DbSet<Workout> Workouts { get; set; }
     }
 }

@@ -28,6 +28,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IExerciseHistoryRepository, ExerciseHistoryRepository>();
+builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 
 var app = builder.Build();
 
