@@ -16,5 +16,17 @@ namespace BackendAPI.Mappers
                 WorkoutExercises = workout.WorkoutExercises.Select(we => we.ToWorkoutExerciseDto()).ToList()
             };
         }
+
+        public static Workout ToWorkoutFromCreateDto(this CreateWorkoutRequestDto workoutRequest)
+        {
+            //should check that each exercise requested actually exists
+            return new Workout
+            {
+                Name = workoutRequest.Name,
+                Description = workoutRequest.Description,
+                Note = workoutRequest.Note,
+                WorkoutExercises = workoutRequest.WorkoutExercises.Select(we => we.ToWorkoutExerciseFromCreateDto()).ToList()
+            };
+        }
     }
 }

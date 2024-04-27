@@ -1,0 +1,58 @@
+using BackendAPI.Data;
+using BackendAPI.Dtos.Exercise;
+using BackendAPI.Dtos.Workout;
+using BackendAPI.Helpers;
+using BackendAPI.Interfaces;
+using BackendAPI.Mappers;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BackendAPI.Controllers
+{
+    [Route("api/workout")]
+    [ApiController]
+    public class WorkoutController : ControllerBase
+    {
+        private readonly ApplicationDBContext _context;
+        private readonly IWorkoutRepository _workoutRepository;
+        private readonly IExerciseHistoryRepository _exercisesHistoryRepository;
+        public WorkoutController(ApplicationDBContext context, IWorkoutRepository workoutRepository, IExerciseHistoryRepository exercisesHistory)
+        {
+            _context = context;
+            _workoutRepository = workoutRepository;
+            _exercisesHistoryRepository = exercisesHistory;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var workouts = await _workoutRepository.GetAllAsync();
+            var workoutDto = workouts.Select(x => x.ToWorkoutDto());
+
+            return Ok(workoutDto);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var workout = await _workoutRepository.GetByIdAsync(id);
+            if (workout == null) return NotFound();
+
+            return Ok(workout.ToWorkoutDto());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateWorkoutRequestDto workoutToAdd)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var workout = workoutToAdd.ToWorkoutFromCreateDto();
+            await _workoutRepository.CreateAsync(workout);
+
+            return CreatedAtAction(nameof(GetById), new { id = workout.Id }, workout.ToWorkoutDto());
+        }
+    }
+}

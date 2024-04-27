@@ -16,5 +16,6 @@ namespace BackendAPI.Data
 
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseHistory> ExerciseHistories { get; set; }
+        public DbSet<Workout> Workouts { get; set; }
     }
 }
