@@ -67,5 +67,17 @@ namespace BackendAPI.Controllers
             return NoContent();
         }
 
+        [HttpPut]
+        [Route("id:int")]
+        public async Task<IActionResult> Update([FromQuery] int id, [FromBody] UpdateWorkoutRequestDto updatedWorkout)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var workout = await _workoutRepository.UpdateAsync(id, updatedWorkout);
+            if (workout == null) return NotFound();
+
+            return Ok(workout.ToWorkoutDto());
+        }
+
     }
 }

@@ -53,9 +53,18 @@ namespace BackendAPI.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Workout?> UpdateAsync(int id, UpdateWorkoutRequestDto updateWorkout)
+        public async Task<Workout?> UpdateAsync(int id, UpdateWorkoutRequestDto updateWorkout)
         {
-            throw new NotImplementedException();
+            var workout = await _context.Workouts.FirstOrDefaultAsync(x => x.Id == id);
+            if (workout == null) return null;
+
+            workout.Name = updateWorkout.Name;
+            workout.Description = updateWorkout.Description;
+            workout.Note = updateWorkout.Note;
+            workout.WorkoutExercises = updateWorkout.WorkoutExercises;
+
+            await _context.SaveChangesAsync();
+            return workout;
         }
     }
 }
