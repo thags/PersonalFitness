@@ -54,5 +54,18 @@ namespace BackendAPI.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = workout.Id }, workout.ToWorkoutDto());
         }
+
+        [HttpDelete]
+        [Route("id:int")]
+        public async Task<IActionResult> Delete([FromQuery] int id)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var workout = await _workoutRepository.DeleteAsync(id);
+            if (workout == null) return NotFound();
+
+            return NoContent();
+        }
+
     }
 }

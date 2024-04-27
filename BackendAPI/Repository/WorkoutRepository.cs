@@ -22,9 +22,14 @@ namespace BackendAPI.Repository
             return workout;
         }
 
-        public Task<Workout?> DeleteAsync(int id)
+        public async Task<Workout?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var workout = await _context.Workouts.FirstOrDefaultAsync(x => x.Id == id);
+            if (workout == null) return null;
+
+            _context.Workouts.Remove(workout);
+            await _context.SaveChangesAsync();
+            return workout;
         }
 
         public async Task<List<Workout>> GetAllAsync()
