@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BackendAPI.Dtos.Exercise;
 using BackendAPI.Dtos.WorkoutExercise;
 using BackendAPI.Models;

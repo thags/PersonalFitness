@@ -1,7 +1,5 @@
 using BackendAPI.Data;
-using BackendAPI.Dtos.Exercise;
 using BackendAPI.Dtos.Workout;
-using BackendAPI.Helpers;
 using BackendAPI.Interfaces;
 using BackendAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -78,6 +76,5 @@ namespace BackendAPI.Controllers
 
             return Ok(workout.ToWorkoutDto());
         }
-
     }
 }

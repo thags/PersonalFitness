@@ -19,7 +19,6 @@ namespace BackendAPI.Mappers
 
         public static Workout ToWorkoutFromCreateDto(this CreateWorkoutRequestDto workoutRequest)
         {
-            //should check that each exercise requested actually exists
             return new Workout
             {
                 Name = workoutRequest.Name,

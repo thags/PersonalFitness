@@ -1,7 +1,6 @@
 using BackendAPI.Dtos.ExerciseHistory;
 using BackendAPI.Models;
 
-
 namespace BackendAPI.Mappers
 {
     public static class ExerciseNoteMapper

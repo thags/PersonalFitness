@@ -1,5 +1,3 @@
-using BackendAPI.Models;
-
 namespace BackendAPI.Dtos.Workout
 {
     public class UpdateWorkoutRequestDto

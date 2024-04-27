@@ -1,4 +1,3 @@
-
 using BackendAPI.Data;
 using BackendAPI.Dtos.Workout;
 using BackendAPI.Interfaces;
