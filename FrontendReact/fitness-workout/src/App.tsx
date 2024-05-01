@@ -2,6 +2,8 @@ import ListExercises from "./components/ListExercises";
 import Button from "./components/Button";
 import CreateExercise from "./components/CreateExercise";
 
+const baseApiUrl: string = "api/";
+
 function App() {
   const handleSelectItem = (item: string) => {
     console.log(item);
@@ -10,7 +12,7 @@ function App() {
   return (
     <div>
       <ListExercises
-        exercisesApi="api/exercise/"
+        BaseApiUrl={baseApiUrl}
         heading="Exercises"
         onSelectItem={handleSelectItem}
       />

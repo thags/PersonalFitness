@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
+import DeleteExerciseButton from "./DeleteExerciseButton";
 
 interface Props {
-  exercisesApi: string;
+  BaseApiUrl: string;
   heading: string;
   onSelectItem: (item: string) => void;
 }
 
-function ListExercises({ exercisesApi, heading, onSelectItem }: Props) {
+function ListExercises({ BaseApiUrl, heading, onSelectItem }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [exerciseList, setExerciseList] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   useEffect(() => {
-    fetch(exercisesApi, {
+    fetch(BaseApiUrl + "exercise", {
       method: "GET",
     })
       .then((response) => response.json())
@@ -20,6 +22,8 @@ function ListExercises({ exercisesApi, heading, onSelectItem }: Props) {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const HandleDelete = () => console.log("deleted");
 
   return (
     <>
@@ -37,12 +41,21 @@ function ListExercises({ exercisesApi, heading, onSelectItem }: Props) {
             onClick={() => {
               setSelectedIndex(index);
               onSelectItem(item);
+              setSelectedExercise(item);
             }}
           >
             {item["name"]}
           </li>
         ))}
       </ul>
+      <DeleteExerciseButton
+        color="danger"
+        baseApiUrl={BaseApiUrl}
+        exercise={selectedExercise}
+        onDelete={HandleDelete}
+      >
+        Delete
+      </DeleteExerciseButton>
     </>
   );
 }

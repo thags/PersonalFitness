@@ -65,8 +65,8 @@ namespace BackendAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("id:int")]
-        public async Task<IActionResult> Delete([FromQuery] int id)
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
