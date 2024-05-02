@@ -24,34 +24,35 @@ function ListExercises({ heading, onSelectItem }: Props) {
 
   return (
     <>
-      <h1>{heading}</h1>
-      {exerciseList.length === 0 && <p>No exercises found</p>}
-      <ul className="list-group">
-        {exerciseList.map((item, index) => (
-          <li
-            key={index}
-            className={
-              selectedIndex === index
-                ? "list-group-item active"
-                : "list-group-item"
-            }
-            onClick={() => {
-              setSelectedIndex(index);
-              onSelectItem(item);
-              setSelectedExercise(item);
-            }}
-          >
-            {item["name"]}
-          </li>
-        ))}
-      </ul>
-      <DeleteExerciseButton
-        color="danger"
-        exercise={selectedExercise}
-        onDelete={HandleDelete}
-      >
-        Delete
-      </DeleteExerciseButton>
+      <table className="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Rep Type</th>
+            <th scope="col">Instruction</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {exerciseList.length === 0 && <p>No exercises found</p>}
+          {exerciseList.map((item: any) => (
+            <tr>
+              <th scope="row">{item.name}</th>
+              <td>{item["repType"]}</td>
+              <td>{item["instruction"]}</td>
+              <td>
+                <DeleteExerciseButton
+                  color="danger"
+                  exercise={item}
+                  onDelete={HandleDelete}
+                >
+                  Delete
+                </DeleteExerciseButton>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }

@@ -7,7 +7,7 @@ namespace BackendAPI.Dtos.Exercise
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public RepType RepType { get; set; } = RepType.Reps;
+        public string RepType { get; set; } = "Reps";
         public string Instruction { get; set; } = string.Empty;
         public List<ExerciseHistoryDto>? History { get; set; }
     }

@@ -12,7 +12,7 @@ namespace BackendAPI.Mappers
             {
                 Id = exerciseModel.Id,
                 Name = exerciseModel.Name,
-                RepType = exerciseModel.RepType,
+                RepType = exerciseModel.RepType.ToString(),
                 Instruction = exerciseModel.Instruction,
                 History = exerciseModel.ExerciseHistory?.Select(x => x.ToHistoryDto()).ToList(),
             };

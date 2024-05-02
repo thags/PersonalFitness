@@ -37,48 +37,62 @@ function CreateExercise({ onCreateExercise }: Props) {
   return (
     <>
       <form onSubmit={HandleFormSubmit}>
+        <div className="row g-2 align-items-center">
+          <div className="col-auto">
+            <label htmlFor="exerciseName" className="form-label">
+              Exercise Name
+            </label>
+          </div>
+          <div className="col-auto">
+            <input
+              type="text"
+              className="form-control"
+              id="exerciseName"
+              aria-describedby="Exercise name"
+            />
+          </div>
+        </div>
+        <div className="row g-2 align-items-center">
+          <div className="col-auto">
+            <label htmlFor="reptype">Rep Type</label>
+          </div>
+          <div className="col-auto">
+            <select id="reptype" className="form-control">
+              <option selected>Reps</option>
+              <option>Time</option>
+              <option>Weight</option>
+              <option>Distance</option>
+              <option>RepsAndWeight</option>
+              <option>Bodyweight</option>
+              <option>RepsAndBodyWeight</option>
+              <option>TimeAndWeight</option>
+              <option>TimeAndBodyWeight</option>
+              <option>DistanceAndWeight</option>
+              <option>DistanceAndBodyWeight</option>
+              <option>TimeAndDistance</option>
+            </select>
+          </div>
+        </div>
         <div className="mb-3">
-          <label htmlFor="exerciseName" className="form-label">
-            Exercise Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exerciseName"
-            aria-describedby="Exercise name"
-          />
+          <div className="row g-2 align-items-center">
+            <div className="col-auto">
+              <label htmlFor="exerciseinstruction" className="form-label">
+                Instruction
+              </label>
+            </div>
+            <div className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                id="exerciseinstruction"
+                aria-describedby="Exercise Instruction"
+              />
+            </div>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </div>
-        <div className="form-group col-md-4">
-          <label htmlFor="reptype">Rep Type</label>
-          <select id="reptype" className="form-control">
-            <option selected>Reps</option>
-            <option>Time</option>
-            <option>Weight</option>
-            <option>Distance</option>
-            <option>RepsAndWeight</option>
-            <option>Bodyweight</option>
-            <option>RepsAndBodyWeight</option>
-            <option>TimeAndWeight</option>
-            <option>TimeAndBodyWeight</option>
-            <option>DistanceAndWeight</option>
-            <option>DistanceAndBodyWeight</option>
-            <option>TimeAndDistance</option>
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exerciseinstruction" className="form-label">
-            Instruction
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exerciseinstruction"
-            aria-describedby="Exercise Instruction"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
       </form>
     </>
   );

@@ -1,5 +1,4 @@
 import ListExercises from "./components/ListExercises";
-import Button from "./components/Button";
 import CreateExercise from "./components/CreateExercise";
 
 function App() {
