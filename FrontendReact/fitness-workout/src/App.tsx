@@ -8,9 +8,7 @@ function App() {
 
   return (
     <div>
-      <ListExercises heading="Exercises" onSelectItem={handleSelectItem} />
-
-      <CreateExercise onCreateExercise={handleSelectItem} />
+      <ListExercises onSelectItem={handleSelectItem} />
     </div>
   );
 }

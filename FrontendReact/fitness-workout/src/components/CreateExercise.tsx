@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
+import IExercise from "../Interfaces/IExercise";
+import RepType from "../enums/RepType";
 
 interface Props {
   //CreateExercisesApi: string;
-  onCreateExercise: (item: string) => void;
+  onCreateExercise: (item: IExercise) => void;
 }
 
-interface CreateExercise {
-  name: string;
-  repType: "Reps" | "Time" | "Weight" | "Distance";
-  instruction: string;
-}
-
-function HandleCreateExercise(createExercise: CreateExercise) {
+function HandleCreateExercise(createExercise: IExercise) {
   fetch("api/exercise/", {
     method: "POST",
     headers: {
@@ -24,14 +20,14 @@ function HandleCreateExercise(createExercise: CreateExercise) {
 function CreateExercise({ onCreateExercise }: Props) {
   let HandleFormSubmit = (event: any) => {
     event.preventDefault();
-    let exercise: CreateExercise = {
+    let exercise: IExercise = {
       name: event.target[0].value,
       repType: event.target[1].value,
       instruction: event.target[2].value,
     };
     console.log(exercise);
     HandleCreateExercise(exercise);
-    onCreateExercise(exercise.name);
+    onCreateExercise(exercise);
   };
 
   return (
@@ -58,17 +54,11 @@ function CreateExercise({ onCreateExercise }: Props) {
           </div>
           <div className="col-auto">
             <select id="reptype" className="form-control">
-              <option selected>Reps</option>
-              <option>Time</option>
-              <option>Weight</option>
-              <option>Distance</option>
-              <option>RepsAndWeight</option>
-              <option>Bodyweight</option>
-              <option>RepsAndBodyWeight</option>
-              <option>TimeAndWeight</option>
-              <option>TimeAndBodyWeight</option>
-              <option>DistanceAndWeight</option>
-              <option>DistanceAndBodyWeight</option>
+              {Object.keys(RepType)
+                .filter((key: any) => !isNaN(Number(RepType[key])))
+                .map((key) => (
+                  <option>{key}</option>
+                ))}
               <option>TimeAndDistance</option>
             </select>
           </div>

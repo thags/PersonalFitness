@@ -1,8 +1,10 @@
+import IExercise from "../Interfaces/IExercise";
+
 interface Props {
   color?: "primary" | "secondary" | "danger";
   children: string;
   exercise: any;
-  onDelete: () => void;
+  onDelete: (exercise: IExercise) => void;
 }
 
 function HandleDelete(exerciseId: string) {
@@ -23,7 +25,7 @@ function Button({ color = "primary", children, exercise, onDelete }: Props) {
         className={name}
         onClick={() => {
           HandleDelete(exercise.id);
-          onDelete();
+          onDelete(exercise);
         }}
       >
         {children}

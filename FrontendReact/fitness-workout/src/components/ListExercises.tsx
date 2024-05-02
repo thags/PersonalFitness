@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import DeleteExerciseButton from "./DeleteExerciseButton";
+import IExercise from "../Interfaces/IExercise";
+import CreateExercise from "./CreateExercise";
 
 interface Props {
-  heading: string;
   onSelectItem: (item: string) => void;
 }
 
-function ListExercises({ heading, onSelectItem }: Props) {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [selectedExercise, setSelectedExercise] = useState(null);
-  const [exerciseList, setExerciseList] = useState([]);
+function ListExercises({ onSelectItem }: Props) {
+  const [exerciseList, setExerciseList] = useState<IExercise[]>([]);
 
   useEffect(() => {
     fetch("api/exercise", { method: "GET" })
@@ -20,7 +19,16 @@ function ListExercises({ heading, onSelectItem }: Props) {
       .catch((error) => console.log(error));
   }, []);
 
-  const HandleDelete = () => console.log("deleted");
+  const HandleDelete = (exercise: IExercise) => {
+    const newList = exerciseList.filter(
+      (item: IExercise) => item.id !== exercise.id
+    );
+    setExerciseList(newList);
+  };
+
+  const HandleCreate = (exercise: IExercise) => {
+    setExerciseList([...exerciseList, exercise]);
+  };
 
   return (
     <>
@@ -35,11 +43,11 @@ function ListExercises({ heading, onSelectItem }: Props) {
         </thead>
         <tbody>
           {exerciseList.length === 0 && <p>No exercises found</p>}
-          {exerciseList.map((item: any) => (
+          {exerciseList.map((item: IExercise) => (
             <tr>
               <th scope="row">{item.name}</th>
-              <td>{item["repType"]}</td>
-              <td>{item["instruction"]}</td>
+              <td>{item.repType}</td>
+              <td>{item.instruction}</td>
               <td>
                 <DeleteExerciseButton
                   color="danger"
@@ -53,6 +61,7 @@ function ListExercises({ heading, onSelectItem }: Props) {
           ))}
         </tbody>
       </table>
+      <CreateExercise onCreateExercise={HandleCreate} />
     </>
   );
 }
