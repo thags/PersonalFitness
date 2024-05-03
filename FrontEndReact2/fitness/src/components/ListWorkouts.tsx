@@ -28,9 +28,9 @@ function ListWorkouts() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="center">Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="text-center">Name</TableHead>
+            <TableHead className="text-center">Description</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
