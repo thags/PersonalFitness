@@ -1,4 +1,4 @@
-import IExercise from "../Interfaces/IExercise";
+import IExercise from "../../../../FrontEndReact2/fitness/src/Interfaces/IExercise";
 
 interface Props {
   color?: "primary" | "secondary" | "danger";

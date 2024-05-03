@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import IExercise from "../Interfaces/IExercise";
-import RepType from "../enums/RepType";
+import IExercise from "../../../../FrontEndReact2/fitness/src/Interfaces/IExercise";
+import RepType from "../../../../FrontEndReact2/fitness/src/enums/RepType";
 
 interface Props {
   //CreateExercisesApi: string;

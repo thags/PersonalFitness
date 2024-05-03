@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "../../FrontEndReact2/fitness/src/enums", "../../FrontEndReact2/fitness/src/Interfaces"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

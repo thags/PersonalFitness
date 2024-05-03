@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DeleteExerciseButton from "./DeleteExerciseButton";
-import IExercise from "../Interfaces/IExercise";
+import IExercise from "../../../../FrontEndReact2/fitness/src/Interfaces/IExercise";
 import CreateExercise from "./CreateExercise";
 
 interface Props {
