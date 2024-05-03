@@ -5,6 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
   Form,
   FormControl,
   FormDescription,
@@ -22,14 +30,14 @@ interface Props {
 function CreateExercise({ onCreateExercise }: Props) {
   const formSchema = z.object({
     name: z.string().min(5),
+    reptype: z.nativeEnum(RepType),
+    instruction: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "Exercise Name",
-    },
   });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     fetch("api/exercise/", {
       method: "POST",
@@ -42,7 +50,10 @@ function CreateExercise({ onCreateExercise }: Props) {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 item-center"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -50,13 +61,49 @@ function CreateExercise({ onCreateExercise }: Props) {
               <FormItem>
                 <FormLabel>Exercise Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="test" {...field} />
+                  <Input placeholder="Exercise Name" {...field} />
                 </FormControl>
-                <FormDescription>This is the exercise name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="reptype"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Rep type</FormLabel>
+                <FormControl className="item-center">
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder={RepType[RepType.Reps]} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.keys(RepType)
+                        .filter((key: any) => !isNaN(Number(RepType[key])))
+                        .map((key: any) => (
+                          <SelectItem value={RepType[key]}>{key}</SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="instruction"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Instruction</FormLabel>
+                <FormControl>
+                  <Input placeholder="Exercise instruction" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button type="submit">Submit</Button>
         </form>
       </Form>
