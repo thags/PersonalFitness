@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CreateExercise from "./CreateExercise";
 import IExercise from "../Interfaces/IExercise";
 import {
   Table,
@@ -25,7 +26,7 @@ function ListExercises({ onListAdd, onListRemove, exerciseList }: Props) {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Rep Type</TableHead>
-            <TableHead>Insuction</TableHead>
+            <TableHead>Intruction</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -37,6 +38,7 @@ function ListExercises({ onListAdd, onListRemove, exerciseList }: Props) {
               <TableCell>{item.repType}</TableCell>
               <TableCell>{item.instruction}</TableCell>
               <TableCell>
+                <CreateExercise />
                 <Button
                   variant="destructive"
                   onClick={() => onListRemove()}

@@ -15,13 +15,21 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "./ui/input";
+import {
+  Dialog,
+  DialogFooter,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 interface Props {
   onCreateExercise?: (item: any) => void;
@@ -50,64 +58,77 @@ function CreateExercise({ onCreateExercise }: Props) {
   }
   return (
     <>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 item-center"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Exercise Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Exercise Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="reptype"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Rep type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl className="item-center">
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder={"Reps"} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {Object.keys(RepType)
-                      .filter((key: any) => !isNaN(Number(RepType[key])))
-                      .map((key: any) => (
-                        <SelectItem value={key}>{key}</SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="instruction"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Instruction</FormLabel>
-                <FormControl>
-                  <Input placeholder="Exercise instruction" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="default">Create Exercise</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Create Exercise</DialogTitle>
+            <DialogDescription>Use this form to create an exercise</DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 item-center"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Exercise Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Exercise Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="reptype"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rep type</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl className="item-center">
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder={"Select Rep Type"} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.keys(RepType)
+                          .filter((key: any) => !isNaN(Number(RepType[key])))
+                          .map((key: any) => (
+                            <SelectItem value={key}>{key}</SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="instruction"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Instruction</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Exercise instruction" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
+              <DialogFooter>
+                <Button type="submit">Submit</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
