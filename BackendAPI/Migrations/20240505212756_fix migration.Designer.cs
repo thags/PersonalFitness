@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240425233847_addHistory")]
-    partial class addHistory
+    [Migration("20240505212756_fix migration")]
+    partial class fixmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,73 @@ namespace BackendAPI.Migrations
                     b.ToTable("ExerciseHistories");
                 });
 
+            modelBuilder.Entity("BackendAPI.Models.Workout", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workouts");
+                });
+
+            modelBuilder.Entity("BackendAPI.Models.WorkoutExercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Distance")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DurationInMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sets")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Weight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("WorkoutId");
+
+                    b.ToTable("WorkoutExercise");
+                });
+
             modelBuilder.Entity("BackendAPI.Models.ExerciseHistory", b =>
                 {
                     b.HasOne("BackendAPI.Models.Exercise", "Exercise")
@@ -98,9 +165,33 @@ namespace BackendAPI.Migrations
                     b.Navigation("Exercise");
                 });
 
+            modelBuilder.Entity("BackendAPI.Models.WorkoutExercise", b =>
+                {
+                    b.HasOne("BackendAPI.Models.Exercise", "Exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackendAPI.Models.Workout", "Workout")
+                        .WithMany("WorkoutExercises")
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("Workout");
+                });
+
             modelBuilder.Entity("BackendAPI.Models.Exercise", b =>
                 {
                     b.Navigation("ExerciseHistory");
+                });
+
+            modelBuilder.Entity("BackendAPI.Models.Workout", b =>
+                {
+                    b.Navigation("WorkoutExercises");
                 });
 #pragma warning restore 612, 618
         }

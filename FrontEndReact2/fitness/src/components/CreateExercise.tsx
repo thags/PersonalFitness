@@ -30,7 +30,7 @@ interface Props {
 function CreateExercise({ onCreateExercise }: Props) {
   const formSchema = z.object({
     name: z.string().min(5),
-    reptype: z.nativeEnum(RepType),
+    reptype: z.string(),
     instruction: z.string(),
   });
 
@@ -44,7 +44,7 @@ function CreateExercise({ onCreateExercise }: Props) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify(values, null, 2),
     }).catch((error) => console.log(error));
   }
   return (
@@ -73,20 +73,16 @@ function CreateExercise({ onCreateExercise }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Rep type</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className="item-center">
-                  <Select>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder={RepType[RepType.Reps]} />
+                      <SelectValue placeholder={"Reps"} />
                     </SelectTrigger>
+                    </FormControl>
                     <SelectContent>
-                      {Object.keys(RepType)
-                        .filter((key: any) => !isNaN(Number(RepType[key])))
-                        .map((key: any) => (
-                          <SelectItem value={RepType[key]}>{key}</SelectItem>
-                        ))}
+                      <SelectItem value={"Reps"}>Reps</SelectItem>
                     </SelectContent>
                   </Select>
-                </FormControl>
               </FormItem>
             )}
           />
