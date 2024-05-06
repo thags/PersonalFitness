@@ -23,13 +23,14 @@ import {
 import { Input } from "./ui/input";
 import {
   Dialog,
+  DialogClose,
   DialogFooter,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 interface Props {
   onCreateExercise: (item: any) => void;
@@ -65,7 +66,9 @@ function CreateExercise({ onCreateExercise }: Props) {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Create Exercise</DialogTitle>
-            <DialogDescription>Use this form to create an exercise</DialogDescription>
+            <DialogDescription>
+              Use this form to create an exercise
+            </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form
@@ -91,7 +94,10 @@ function CreateExercise({ onCreateExercise }: Props) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Rep type</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl className="item-center">
                         <SelectTrigger className="w-[180px]">
                           <SelectValue placeholder={"Select Rep Type"} />
@@ -101,7 +107,9 @@ function CreateExercise({ onCreateExercise }: Props) {
                         {Object.keys(RepType)
                           .filter((key: any) => !isNaN(Number(RepType[key])))
                           .map((key: any) => (
-                            <SelectItem key={key} value={key}>{key}</SelectItem>
+                            <SelectItem key={key} value={key}>
+                              {key}
+                            </SelectItem>
                           ))}
                       </SelectContent>
                     </Select>
@@ -123,7 +131,11 @@ function CreateExercise({ onCreateExercise }: Props) {
               />
 
               <DialogFooter>
-                <Button type="submit" onClick={onCreateExercise}>Submit</Button>
+                <DialogClose asChild>
+                  <Button type="submit" onClick={onCreateExercise}>
+                    Submit
+                  </Button>
+                </DialogClose>
               </DialogFooter>
             </form>
           </Form>
