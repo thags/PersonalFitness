@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/dialog"
 
 interface Props {
-  onCreateExercise?: (item: any) => void;
+  onCreateExercise: (item: any) => void;
 }
 
 function CreateExercise({ onCreateExercise }: Props) {
@@ -101,7 +101,7 @@ function CreateExercise({ onCreateExercise }: Props) {
                         {Object.keys(RepType)
                           .filter((key: any) => !isNaN(Number(RepType[key])))
                           .map((key: any) => (
-                            <SelectItem value={key}>{key}</SelectItem>
+                            <SelectItem key={key} value={key}>{key}</SelectItem>
                           ))}
                       </SelectContent>
                     </Select>
@@ -123,7 +123,7 @@ function CreateExercise({ onCreateExercise }: Props) {
               />
 
               <DialogFooter>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" onClick={onCreateExercise}>Submit</Button>
               </DialogFooter>
             </form>
           </Form>

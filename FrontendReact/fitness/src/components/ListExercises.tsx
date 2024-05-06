@@ -27,21 +27,23 @@ function ListExercises({ onListAdd, onListRemove, exerciseList }: Props) {
             <TableHead>Name</TableHead>
             <TableHead>Rep Type</TableHead>
             <TableHead>Intruction</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead><div className="grid auto-rows-auto"><div className="justify-items-start">Actions</div>
+              <div className="justify-items-end"><CreateExercise onCreateExercise={onListAdd} /></div>
+            </div>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {exerciseList.length === 0 && <p>No exercises found</p>}
           {exerciseList.map((item: IExercise) => (
-            <TableRow>
+            <TableRow key={item.id}>
               <TableCell scope="row">{item.name}</TableCell>
               <TableCell>{item.repType}</TableCell>
               <TableCell>{item.instruction}</TableCell>
               <TableCell>
-                <CreateExercise />
                 <Button
                   variant="destructive"
-                  onClick={() => onListRemove()}
+                  onClick={onListRemove}
                 >
                   Delete
                 </Button>
