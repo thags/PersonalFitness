@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import CreateExercise from "./CreateExercise";
 import IExercise from "../Interfaces/IExercise";
 import {
@@ -12,13 +11,12 @@ import {
 import { Button } from "./ui/button";
 
 interface Props {
-  onListRemove: () => void;
+  onListRemove: (id?: number) => void;
   onListAdd: () => void;
   exerciseList: IExercise[];
 }
 
 function ListExercises({ onListAdd, onListRemove, exerciseList }: Props) {
-
   return (
     <>
       <Table>
@@ -26,10 +24,14 @@ function ListExercises({ onListAdd, onListRemove, exerciseList }: Props) {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Rep Type</TableHead>
-            <TableHead>Intruction</TableHead>
-            <TableHead><div className="grid auto-rows-auto"><div className="justify-items-start">Actions</div>
-              <div className="justify-items-end"><CreateExercise onCreateExercise={onListAdd} /></div>
-            </div>
+            <TableHead>Instruction</TableHead>
+            <TableHead>
+              <div className="grid auto-rows-auto">
+                <div className="justify-items-start">Actions</div>
+                <div className="justify-items-end">
+                  <CreateExercise onCreateExercise={onListAdd} />
+                </div>
+              </div>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -43,7 +45,7 @@ function ListExercises({ onListAdd, onListRemove, exerciseList }: Props) {
               <TableCell>
                 <Button
                   variant="destructive"
-                  onClick={onListRemove}
+                  onClick={() => onListRemove(item.id)}
                 >
                   Delete
                 </Button>

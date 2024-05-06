@@ -5,6 +5,13 @@ import IExercise from "../Interfaces/IExercise";
 function Exercises() {
   const [exercises, setExercises] = useState<IExercise[]>([]);
 
+  const HandleListRemove = (id?: number) => {
+    const newExercises: IExercise[] = exercises.filter(
+      (value: IExercise) => value.id != id
+    );
+
+    setExercises(newExercises);
+  };
 
   useEffect(() => {
     fetch("api/exercise", { method: "GET" })
@@ -19,7 +26,7 @@ function Exercises() {
     <>
       <ListExercises
         exerciseList={exercises}
-        onListRemove={() => console.log("The list has changed")}
+        onListRemove={HandleListRemove}
         onListAdd={() => console.log("Added to list")}
       />
     </>

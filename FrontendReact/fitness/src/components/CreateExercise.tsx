@@ -132,9 +132,7 @@ function CreateExercise({ onCreateExercise }: Props) {
 
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button type="submit" onClick={onCreateExercise}>
-                    Submit
-                  </Button>
+                  <Button type="submit">Submit</Button>
                 </DialogClose>
               </DialogFooter>
             </form>
