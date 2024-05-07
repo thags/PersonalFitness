@@ -9,8 +9,11 @@ function Exercises() {
     const newExercises: IExercise[] = exercises.filter(
       (value: IExercise) => value.id != id
     );
-
     setExercises(newExercises);
+
+    fetch("api/exercise/" + id, { method: "Delete" })
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
