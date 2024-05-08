@@ -16,6 +16,15 @@ function Exercises() {
       .catch((error) => console.log(error));
   };
 
+  const HandleListAdd = () => {
+    fetch("api/exercise", { method: "GET" })
+      .then((response) => response.json())
+      .then((data) => {
+        setExercises(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     fetch("api/exercise", { method: "GET" })
       .then((response) => response.json())
@@ -30,7 +39,7 @@ function Exercises() {
       <ListExercises
         exerciseList={exercises}
         onListRemove={HandleListRemove}
-        onListAdd={() => console.log("Added to list")}
+        onListAdd={HandleListAdd}
       />
     </>
   );
