@@ -1,11 +1,11 @@
-import IWorkoutExercise from "./IWorkoutExercise";
+import IExercise from "./IExercise";
 
 interface IWorkout {
   id?: number;
   name?: string;
   description?: string;
   note?: string;
-  workoutExercise?: IWorkoutExercise[];
+  workoutExercise?: IExercise[];
 }
 
 export default IWorkout;
