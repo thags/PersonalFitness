@@ -1,6 +1,7 @@
 using BackendAPI.Data;
 using BackendAPI.Dtos.Workout;
 using BackendAPI.Interfaces;
+using BackendAPI.Mappers;
 using BackendAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,19 @@ namespace BackendAPI.Repository
 
         public async Task<Workout> CreateAsync(Workout workout)
         {
+            int numberOfExercises = workout.WorkoutExercises.Count;
+            var exercises = workout.WorkoutExercises;
+            workout.WorkoutExercises = new List<Exercise>();
+
+            for (int i = 0; i < numberOfExercises; i++)
+            {
+                var currentExercise = exercises[i];
+                if (!await _context.Exercises.AnyAsync(x => x.Id == currentExercise.Id))
+                {
+                    continue;
+                }
+                workout.WorkoutExercises.Add(await _context.Exercises.FirstAsync(x => x.Id == currentExercise.Id));
+            }
             await _context.Workouts.AddAsync(workout);
             await _context.SaveChangesAsync();
             return workout;
@@ -35,7 +49,6 @@ namespace BackendAPI.Repository
         {
             return await _context.Workouts
                 .Include(x => x.WorkoutExercises)
-                .ThenInclude(exercises => exercises.Exercise)
                 .ToListAsync();
         }
 
@@ -43,7 +56,6 @@ namespace BackendAPI.Repository
         {
             return await _context.Workouts
                 .Include(WorkoutExercises => WorkoutExercises.WorkoutExercises)
-                .ThenInclude(exercises => exercises.Exercise)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -60,7 +72,7 @@ namespace BackendAPI.Repository
             workout.Name = updateWorkout.Name;
             workout.Description = updateWorkout.Description;
             workout.Note = updateWorkout.Note;
-            workout.WorkoutExercises = updateWorkout.WorkoutExercises;
+            workout.WorkoutExercises = updateWorkout.WorkoutExercises.Select(x => x.ToExerciseFromDto()).ToList();
 
             await _context.SaveChangesAsync();
             return workout;

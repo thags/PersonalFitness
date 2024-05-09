@@ -7,12 +7,8 @@ namespace BackendAPI.Enums
         Weight,
         Distance,
         RepsAndWeight,
-        Bodyweight,
-        RepsAndBodyweight,
         TimeAndWeight,
-        TimeAndBodyweight,
         DistanceAndWeight,
-        DistanceAndBodyweight,
         TimeAndDistance,
     }
 }
