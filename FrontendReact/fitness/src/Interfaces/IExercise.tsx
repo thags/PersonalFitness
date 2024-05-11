@@ -1,8 +1,10 @@
 interface IExercise {
-  id?: number;
+  id: number;
   name: string;
-  repType: string;
+  repType: number;
   instruction: string;
+  history: [];
+  bodyweight: boolean;
 }
 
 export default IExercise;
