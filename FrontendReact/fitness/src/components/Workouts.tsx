@@ -8,6 +8,11 @@ import CreateWorkout from "./CreateWorkout";
 function Workouts() {
     const [workoutList, setWorkoutList] = useState<IWorkout[]>([]);
 
+    let onCreateWorkout = (workout: IWorkout) => {
+        let newList = [...workoutList, workout];
+        setWorkoutList(newList);
+    }
+
     useEffect(() => {
       fetch("api/workout", { method: "GET" })
         .then((response) => response.json())
@@ -21,7 +26,7 @@ function Workouts() {
       <>
         <Table>
           <TableHeader>
-          <CreateWorkout />
+          <CreateWorkout onCreateWorkout={onCreateWorkout} />
           </TableHeader>
           <TableBody className="align-content-center justify-content-center">
             {workoutList.length === 0 && <p>No workouts found</p>}

@@ -12,15 +12,16 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import {
+    DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Dialog, DialogHeader } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import ListExercises from "./ListExercises";
 import { Checkbox } from "./ui/checkbox";
 import IExercise from "@/Interfaces/IExercise";
 import { useState, useEffect } from "react";
@@ -40,19 +41,12 @@ function CreateWorkout({onCreateWorkout}: Props) {
           })
           .catch((error) => console.log(error));
       }, []);
-    const exerciseSchema = z.object({
-        id: z.number(),
-        name: z.string(),
-        repType: z.number(),
-        instruction: z.string(),
-        history: z.array(z.any()),
-        bodyweight: z.boolean(),
-    })
+
     const formSchema = z.object({
         name: z.string(),
         description: z.string(),
         note: z.string(),
-        workoutExercises: z.array(exerciseSchema),
+        workoutExercises: z.array(z.any()),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -64,6 +58,20 @@ function CreateWorkout({onCreateWorkout}: Props) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
+        fetch("api/workout/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(values, null, 2),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if(onCreateWorkout != null) onCreateWorkout(data as IWorkout);
+            form.reset();
+          })
+          .catch((error) => console.log(error));
     }
 
     return (
@@ -127,9 +135,9 @@ function CreateWorkout({onCreateWorkout}: Props) {
                   render={() => (
                     <FormItem>
                       <div className="mb-4">
-                        <FormLabel className="text-base">Sidebar</FormLabel>
+                        <FormLabel className="text-base">Exercises</FormLabel>
                         <FormDescription>
-                          Select the items you want to display in the sidebar.
+                          Select exercises to be a part of this workout
                         </FormDescription>
                       </div>
                       {exercises.map((item) => (
@@ -174,6 +182,11 @@ function CreateWorkout({onCreateWorkout}: Props) {
                     </FormItem>
                   )}
                 />
+                <DialogFooter>
+                    <DialogClose asChild>
+                    <Button type="submit">Create Workout</Button>
+                    </DialogClose>
+                </DialogFooter>
               </form>
             </Form>
           </DialogContent>
