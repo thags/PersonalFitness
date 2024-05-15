@@ -1,14 +1,13 @@
-import IExercise from "../Interfaces/IExercise";
+import IExercise from "../../Interfaces/IExercise";
 import { useEffect, useState } from "react";
-import { FormControl, FormField, FormItem, FormLabel } from "./ui/form";
-import { Checkbox } from "./ui/checkbox";
+import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Checkbox } from "../ui/checkbox";
 
 interface Props {
   parentform: any;
 }
 
 function ListExercises({ parentform }: Props) {
-
   const [exercises, setExercises] = useState<IExercise[]>([]);
 
   useEffect(() => {
@@ -40,7 +39,9 @@ function ListExercises({ parentform }: Props) {
                       return checked
                         ? field.onChange([...field.value, item])
                         : field.onChange(
-                            field.value?.filter((value: IExercise) => value.id !== item.id)
+                            field.value?.filter(
+                              (value: IExercise) => value.id !== item.id
+                            )
                           );
                     }}
                   />

@@ -1,5 +1,4 @@
 import "./App.css";
-import Exercises from "./components/Exercises";
 import Workouts from "./components/Workouts";
 import { ModeToggle } from "./components/mode-toggle";
 import { ThemeProvider } from "./components/theme-provider";

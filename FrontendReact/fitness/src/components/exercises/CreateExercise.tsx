@@ -1,5 +1,5 @@
-import IExercise from "../Interfaces/IExercise";
-import RepType from "../enums/RepType";
+import IExercise from "../../Interfaces/IExercise";
+import RepType from "../../enums/RepType";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import {
   Dialog,
   DialogClose,

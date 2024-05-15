@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ListExercises from "./ListExercises";
-import IExercise from "../Interfaces/IExercise";
+import IExercise from "../../Interfaces/IExercise";
 
 function Exercises() {
   const [exercises, setExercises] = useState<IExercise[]>([]);
