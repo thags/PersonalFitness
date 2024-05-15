@@ -5,7 +5,7 @@ interface IWorkout {
   name?: string;
   description?: string;
   note?: string;
-  workoutExercise?: IExercise[];
+  workoutExercises?: IExercise[];
 }
 
 export default IWorkout;

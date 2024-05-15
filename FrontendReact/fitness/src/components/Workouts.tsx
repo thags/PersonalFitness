@@ -1,9 +1,10 @@
 import IWorkout from "@/Interfaces/IWorkout";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import CreateWorkout from "./CreateWorkout";
+import EditWorkout from "./EditWorkout";
 
 function Workouts() {
     const [workoutList, setWorkoutList] = useState<IWorkout[]>([]);
@@ -11,6 +12,10 @@ function Workouts() {
     let onCreateWorkout = (workout: IWorkout) => {
         let newList = [...workoutList, workout];
         setWorkoutList(newList);
+    }
+
+    let onEditWorkout = (workout: IWorkout) => {
+        console.log(workout);
     }
 
     useEffect(() => {
@@ -41,7 +46,7 @@ function Workouts() {
                       </CardDescription>
                     </CardHeader>
                     <CardFooter className="flex justify-between">
-                      <Button>Edit</Button>
+                        <EditWorkout onEditWorkout={onEditWorkout} editWorkout={x}></EditWorkout>
                       <Button>Log</Button>
                     </CardFooter>
                   </Card>

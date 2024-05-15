@@ -66,13 +66,41 @@ namespace BackendAPI.Repository
 
         public async Task<Workout?> UpdateAsync(int id, UpdateWorkoutRequestDto updateWorkout)
         {
-            var workout = await _context.Workouts.FirstOrDefaultAsync(x => x.Id == id);
+            var workout = await _context.Workouts
+                .Include(x => x.WorkoutExercises)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (workout == null) return null;
 
             workout.Name = updateWorkout.Name;
             workout.Description = updateWorkout.Description;
             workout.Note = updateWorkout.Note;
-            workout.WorkoutExercises = updateWorkout.WorkoutExercises.Select(x => x.ToExerciseFromDto()).ToList();
+
+//change this to exercises instead of index
+//when we remove the index we also change the order of the list..so the index..
+            List<Exercise> exercisesToRemove = new List<Exercise>();
+            for (int i = 0; i < workout.WorkoutExercises.Count; i++)
+            {
+                var exercise = workout.WorkoutExercises[i];
+                var exists = updateWorkout.WorkoutExercises.Exists(x => x.Id == exercise.Id);
+                if (!exists)
+                {
+                    exercisesToRemove.Add(exercise);
+                }
+            }
+
+            foreach (var exercise in exercisesToRemove)
+            {
+                workout.WorkoutExercises.Remove(exercise);
+            }
+
+            foreach (var exercise in updateWorkout.WorkoutExercises)
+            {
+                var exists = workout.WorkoutExercises.Exists(x => x.Id == exercise.Id);
+                if (!exists)
+                {
+                    workout.WorkoutExercises.Add(await _context.Exercises.FirstAsync(x => x.Id == exercise.Id));
+                }
+            }
 
             await _context.SaveChangesAsync();
             return workout;
