@@ -26,7 +26,7 @@ import { Checkbox } from "../ui/checkbox";
 import IExercise from "@/Interfaces/IExercise";
 
 interface Props {
-  onEditWorkout?: (workout: IWorkout) => void;
+  onEditWorkout: (workout: IWorkout, changeType: "edit" | "delete") => void;
   editWorkout: IWorkout;
   exercises: IExercise[];
 }
@@ -64,8 +64,7 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout }: Props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (onEditWorkout != null) onEditWorkout(data as IWorkout);
-        form.reset();
+        onEditWorkout(data as IWorkout, "edit");
       })
       .catch((error) => console.log(error));
   }
@@ -81,7 +80,8 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout }: Props) {
         Accept: "application/json",
       },
     })
-      .catch((error) => console.log(error));
+    .then(() => onEditWorkout(editWorkout, "delete"))
+    .catch((error) => console.log(error));
   }
 
   return (

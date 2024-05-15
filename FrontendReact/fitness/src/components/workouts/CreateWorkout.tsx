@@ -28,19 +28,10 @@ import { useState, useEffect } from "react";
 
 interface Props {
   onCreateWorkout?: (workout: IWorkout) => void;
+  exercises: IExercise[];
 }
 
-function CreateWorkout({ onCreateWorkout }: Props) {
-  const [exercises, setExercises] = useState<IExercise[]>([]);
-
-  useEffect(() => {
-    fetch("api/exercise", { method: "GET" })
-      .then((response) => response.json())
-      .then((data) => {
-        setExercises(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+function CreateWorkout({ onCreateWorkout, exercises }: Props) {
 
   const formSchema = z.object({
     name: z.string(),

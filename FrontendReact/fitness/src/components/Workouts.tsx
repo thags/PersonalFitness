@@ -22,8 +22,27 @@ function Workouts() {
     setWorkoutList(newList);
   };
 
-  let onEditWorkout = (workout: IWorkout) => {
-    console.log(workout);
+  let onEditWorkout = (workout: IWorkout, changeType: "edit" | "delete") => {
+    if (workout.id == null) return;
+
+    if (changeType === "delete"){
+        let newList = [...workoutList.filter((x) => x.id != workout.id)];
+        setWorkoutList(newList);
+    }
+    else if (changeType === "edit"){
+
+        let newList = [...workoutList.map((x) => {
+            if (x.id === workout.id){
+                x.description = workout.description;
+                x.name = workout.name;
+                x.note = workout.note;
+                x.workoutExercises = workout.workoutExercises;
+            }
+            return x;
+        })] as unknown as IWorkout[];
+
+        setWorkoutList(newList);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +65,7 @@ function Workouts() {
     <>
       <Table>
         <TableHeader>
-          <CreateWorkout onCreateWorkout={onCreateWorkout} />
+          <CreateWorkout onCreateWorkout={onCreateWorkout} exercises={exerciseList} />
         </TableHeader>
         <TableBody className="align-content-center justify-content-center">
           {workoutList.length === 0 && <p>No workouts found</p>}
