@@ -30,6 +30,9 @@ namespace BackendAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("BodyWeight")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Instruction")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -111,46 +114,19 @@ namespace BackendAPI.Migrations
                     b.ToTable("Workouts");
                 });
 
-            modelBuilder.Entity("BackendAPI.Models.WorkoutExercise", b =>
+            modelBuilder.Entity("ExerciseWorkout", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Distance")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DurationInMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Weight")
+                    b.Property<int>("WorkoutExercisesId")
                         .HasColumnType("int");
 
                     b.Property<int>("WorkoutId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
+                    b.HasKey("WorkoutExercisesId", "WorkoutId");
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("WorkoutExercise");
+                    b.ToTable("ExerciseWorkout");
                 });
 
             modelBuilder.Entity("BackendAPI.Models.ExerciseHistory", b =>
@@ -162,33 +138,24 @@ namespace BackendAPI.Migrations
                     b.Navigation("Exercise");
                 });
 
-            modelBuilder.Entity("BackendAPI.Models.WorkoutExercise", b =>
+            modelBuilder.Entity("ExerciseWorkout", b =>
                 {
-                    b.HasOne("BackendAPI.Models.Exercise", "Exercise")
+                    b.HasOne("BackendAPI.Models.Exercise", null)
                         .WithMany()
-                        .HasForeignKey("ExerciseId")
+                        .HasForeignKey("WorkoutExercisesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackendAPI.Models.Workout", "Workout")
-                        .WithMany("WorkoutExercises")
+                    b.HasOne("BackendAPI.Models.Workout", null)
+                        .WithMany()
                         .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Exercise");
-
-                    b.Navigation("Workout");
                 });
 
             modelBuilder.Entity("BackendAPI.Models.Exercise", b =>
                 {
                     b.Navigation("ExerciseHistory");
-                });
-
-            modelBuilder.Entity("BackendAPI.Models.Workout", b =>
-                {
-                    b.Navigation("WorkoutExercises");
                 });
 #pragma warning restore 612, 618
         }

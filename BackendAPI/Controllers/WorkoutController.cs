@@ -54,8 +54,8 @@ namespace BackendAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("id:int")]
-        public async Task<IActionResult> Delete([FromQuery] int id)
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -66,8 +66,8 @@ namespace BackendAPI.Controllers
         }
 
         [HttpPut]
-        [Route("id:int")]
-        public async Task<IActionResult> Update([FromQuery] int id, [FromBody] UpdateWorkoutRequestDto updatedWorkout)
+        [Route("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateWorkoutRequestDto updatedWorkout)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

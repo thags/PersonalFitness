@@ -1,3 +1,5 @@
+using BackendAPI.Dtos.Exercise;
+
 namespace BackendAPI.Dtos.Workout
 {
     public class UpdateWorkoutRequestDto
@@ -5,6 +7,6 @@ namespace BackendAPI.Dtos.Workout
         public string Name { get; set; } = "Workout";
         public string Description { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;
-        public List<Models.WorkoutExercise> WorkoutExercises { get; set; } = new List<Models.WorkoutExercise>();
+        public List<ExerciseDto> WorkoutExercises { get; set; } = new List<ExerciseDto>();
     }
 }

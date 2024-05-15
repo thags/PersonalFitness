@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240426211626_addWorkout")]
-    partial class addWorkout
+    [Migration("20240505212756_fix migration")]
+    partial class fixmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

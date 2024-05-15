@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240425233847_addHistory")]
-    partial class addHistory
+    [Migration("20240509000935_reorg")]
+    partial class reorg
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace BackendAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("BodyWeight")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Instruction")
                         .IsRequired()
@@ -89,6 +92,46 @@ namespace BackendAPI.Migrations
                     b.ToTable("ExerciseHistories");
                 });
 
+            modelBuilder.Entity("BackendAPI.Models.Workout", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workouts");
+                });
+
+            modelBuilder.Entity("ExerciseWorkout", b =>
+                {
+                    b.Property<int>("WorkoutExercisesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutId")
+                        .HasColumnType("int");
+
+                    b.HasKey("WorkoutExercisesId", "WorkoutId");
+
+                    b.HasIndex("WorkoutId");
+
+                    b.ToTable("ExerciseWorkout");
+                });
+
             modelBuilder.Entity("BackendAPI.Models.ExerciseHistory", b =>
                 {
                     b.HasOne("BackendAPI.Models.Exercise", "Exercise")
@@ -96,6 +139,21 @@ namespace BackendAPI.Migrations
                         .HasForeignKey("ExerciseId");
 
                     b.Navigation("Exercise");
+                });
+
+            modelBuilder.Entity("ExerciseWorkout", b =>
+                {
+                    b.HasOne("BackendAPI.Models.Exercise", null)
+                        .WithMany()
+                        .HasForeignKey("WorkoutExercisesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackendAPI.Models.Workout", null)
+                        .WithMany()
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BackendAPI.Models.Exercise", b =>

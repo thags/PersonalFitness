@@ -13,7 +13,7 @@ namespace BackendAPI.Mappers
                 Name = workout.Name,
                 Description = workout.Description,
                 Note = workout.Note,
-                WorkoutExercises = workout.WorkoutExercises.Select(we => we.ToWorkoutExerciseDto()).ToList()
+                WorkoutExercises = workout.WorkoutExercises.Select(e => e.ToExerciseDto()).ToList()
             };
         }
 
@@ -24,7 +24,7 @@ namespace BackendAPI.Mappers
                 Name = workoutRequest.Name,
                 Description = workoutRequest.Description,
                 Note = workoutRequest.Note,
-                WorkoutExercises = workoutRequest.WorkoutExercises.Select(we => we.ToWorkoutExerciseFromCreateDto()).ToList()
+                WorkoutExercises = workoutRequest.WorkoutExercises.Select(we => we.ToExerciseFromDto()).ToList()
             };
         }
     }

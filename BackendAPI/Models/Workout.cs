@@ -6,6 +6,6 @@ namespace BackendAPI.Models
         public string Name { get; set; } = "Workout";
         public string Description { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;
-        public List<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();
+        public List<Exercise> WorkoutExercises { get; set; } = new List<Exercise>();
     }
 }
