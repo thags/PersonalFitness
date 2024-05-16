@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/dialog";
 
 interface Props {
-  onCreateExercise: () => void;
+  onCreateExercise: (exercise: IExercise) => void;
 }
 
 function CreateExercise({ onCreateExercise }: Props) {
@@ -55,7 +55,11 @@ function CreateExercise({ onCreateExercise }: Props) {
         Accept: "application/json",
       },
       body: JSON.stringify(values, null, 2),
-    }).then(() => onCreateExercise());
+    }).then((response) => response.json())
+      .then((data) => {
+        onCreateExercise(data as IExercise);
+        form.reset();
+      })
   }
   return (
     <>

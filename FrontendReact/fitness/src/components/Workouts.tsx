@@ -45,6 +45,12 @@ function Workouts() {
     }
   };
 
+  let onAddExercise = (exercise: IExercise) =>
+  {
+    let newList = [...exerciseList, exercise];
+    setExerciseList(newList);
+  }
+
   useEffect(() => {
     fetch("api/workout", { method: "GET" })
       .then((response) => response.json())
@@ -82,6 +88,7 @@ function Workouts() {
                       onEditWorkout={onEditWorkout}
                       editWorkout={x}
                       exercises={exerciseList}
+                      onCreateExercise={onAddExercise}
                     ></EditWorkout>
                     <Button>Log</Button>
                   </CardFooter>

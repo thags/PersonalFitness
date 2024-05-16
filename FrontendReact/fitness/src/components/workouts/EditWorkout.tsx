@@ -24,14 +24,16 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import IExercise from "@/Interfaces/IExercise";
+import CreateExercise from "../exercises/CreateExercise";
 
 interface Props {
   onEditWorkout: (workout: IWorkout, changeType: "edit" | "delete") => void;
   editWorkout: IWorkout;
   exercises: IExercise[];
+  onCreateExercise: (exercise: IExercise) => void;
 }
 
-function EditWorkout({ onEditWorkout, exercises, editWorkout }: Props) {
+function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }: Props) {
 
   const formSchema = z.object({
     name: z.string(),
@@ -139,6 +141,7 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout }: Props) {
                   </FormItem>
                 )}
               />
+              <CreateExercise onCreateExercise={onCreateExercise}/>
               <FormField
                 control={form.control}
                 name="workoutExercises"
