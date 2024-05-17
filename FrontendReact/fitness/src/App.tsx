@@ -1,7 +1,7 @@
 import "./App.css";
-import Workouts from "./components/Workouts";
-import { ModeToggle } from "./components/mode-toggle";
-import { ThemeProvider } from "./components/theme-provider";
+import Workouts from "./components/workouts/Workouts";
+import { ModeToggle } from "./components/ui/mode-toggle";
+import { ThemeProvider } from "./components/ui/theme-provider";
 
 function App() {
   return (

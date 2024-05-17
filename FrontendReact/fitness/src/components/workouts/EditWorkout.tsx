@@ -27,8 +27,8 @@ import IExercise from "@/Interfaces/IExercise";
 import CreateExercise from "../exercises/CreateExercise";
 
 interface Props {
-  onEditWorkout: (workout: IWorkout, changeType: "edit" | "delete") => void;
-  editWorkout: IWorkout;
+  onEditWorkout: (workout: IWorkout, changeType: "edit" | "delete" | "create") => void;
+  editWorkout?: IWorkout;
   exercises: IExercise[];
   onCreateExercise: (exercise: IExercise) => void;
 }
@@ -42,22 +42,49 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }
     workoutExercises: z.array(z.any()),
   });
 
+  let getDefaultValues = () => {
+      if (editWorkout != null) {
+        return {
+          name: editWorkout.name,
+          description: editWorkout.description,
+          note: editWorkout.note,
+          workoutExercises:
+            editWorkout.workoutExercises != null
+            ? editWorkout.workoutExercises
+          : [],
+        }
+      }
+      else {
+        return {
+        workoutExercises: [],
+      }
+      }
+    }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: editWorkout.name,
-      description: editWorkout.description,
-      note: editWorkout.note,
-      workoutExercises:
-        editWorkout.workoutExercises != null
-          ? editWorkout.workoutExercises
-          : [],
-    },
+    defaultValues: getDefaultValues(),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    fetch("api/workout/" + editWorkout.id?.toString(), {
-      method: "PUT",
+    if (editWorkout != null) {
+        fetch("api/workout/" + editWorkout.id?.toString(), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values, null, 2),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          onEditWorkout(data as IWorkout, "edit");
+        })
+        .catch((error) => console.log(error));
+      }
+      else {
+        fetch("api/workout/", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -66,9 +93,12 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }
     })
       .then((response) => response.json())
       .then((data) => {
-        onEditWorkout(data as IWorkout, "edit");
+        onEditWorkout(data as IWorkout, "create");
       })
       .catch((error) => console.log(error));
+      }
+
+      form.reset();
   }
 
   function onDelete()
@@ -84,20 +114,27 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }
     })
     .then(() => onEditWorkout(editWorkout, "delete"))
     .catch((error) => console.log(error));
+
+    form.reset();
+  }
+
+  let type = () : string => {
+    if(editWorkout != null) {
+        return "Edit Workout";
+      } else {
+        return "Create Workout";
+      }
   }
 
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="default">Edit Workout</Button>
+          <Button variant="default">{type()}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w[425px]">
           <DialogHeader>
-            <DialogTitle>Edit Workout</DialogTitle>
-            <DialogDescription>
-              Use this form to Edit a workout
-            </DialogDescription>
+            <DialogTitle>{type()}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form
