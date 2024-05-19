@@ -5,9 +5,14 @@ Fitness is personal. There are many different training methods and regiments. I 
 
 ## Screenshots
 Main page
-[Screenshot of the main page](/images/Main.png)
-[Screenshot of the create a workout ui](/images/CreateWorkout.png)
-[Screenshot of the create an exercise ui](/images/CreateExercise.png)
+![Screenshot of the main page](/images/Main.png)
+
+Creating a workout.
+![Screenshot of the create a workout ui](/images/CreateWorkout.png)
+
+Creating an exercise. 
+![Screenshot of the create an exercise ui](/images/CreateExercise.png)
+
 
 ## Goals
 
