@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import {
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogTitle,
   DialogTrigger,
@@ -30,10 +29,10 @@ interface Props {
   onEditWorkout: (workout: IWorkout, changeType: "edit" | "delete" | "create") => void;
   editWorkout?: IWorkout;
   exercises: IExercise[];
-  onCreateExercise: (exercise: IExercise) => void;
+  onEditExercise: (exercise: IExercise, changeType: "edit" | "delete" | "create") => void;
 }
 
-function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }: Props) {
+function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: Props) {
 
   const formSchema = z.object({
     name: z.string(),
@@ -178,7 +177,7 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }
                   </FormItem>
                 )}
               />
-              <CreateExercise onCreateExercise={onCreateExercise}/>
+              <CreateExercise onEditExercise={onEditExercise}/>
               <FormField
                 control={form.control}
                 name="workoutExercises"
@@ -223,6 +222,7 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onCreateExercise }
                               <FormLabel className="font-normal">
                                 {item.name}
                               </FormLabel>
+                                <CreateExercise editExercise={item} onEditExercise={onEditExercise} />
                             </FormItem>
                           );
                         }}

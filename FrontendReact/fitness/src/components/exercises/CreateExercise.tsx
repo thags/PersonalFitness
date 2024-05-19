@@ -26,53 +26,112 @@ import {
   DialogClose,
   DialogFooter,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 interface Props {
-  onCreateExercise: (exercise: IExercise) => void;
+  onEditExercise: (exercise: IExercise, changeType: "edit" | "delete" | "create") => void;
+  editExercise?: IExercise;
 }
 
-function CreateExercise({ onCreateExercise }: Props) {
+function CreateExercise({ onEditExercise, editExercise }: Props) {
   const formSchema = z.object({
-    name: z.string().min(5),
+    name: z.string(),
     reptype: z.string(),
+    bodyweight: z.boolean(),
     instruction: z.string(),
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  let getDefaultValues = () => {
+    if (editExercise != null) {
+      return {
+        name: editExercise.name,
+        reptype: RepType[editExercise.repType],
+        bodyweight: editExercise.bodyWeight,
+        instruction: editExercise.instruction,
+      }
+    } else {
+      return {
+        name: "",
+        reptype: RepType[RepType.Reps],
+        bodyweight: false,
+        instruction: "",
+      }
+    }
+  }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    fetch("api/exercise/", {
-      method: "POST",
+  function onDelete()
+  {
+    if (editExercise == null) return;
+
+    fetch("api/exercise/" + editExercise.id?.toString(), {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(values, null, 2),
-    }).then((response) => response.json())
+    })
+    .then(() => onEditExercise(editExercise, "delete"))
+    .catch((error) => console.log(error));
+
+    form.reset();
+  }
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: getDefaultValues(),
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    if (editExercise != null) {
+      fetch("api/exercise/" + editExercise.id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "applicatino/json",
+        },
+        body: JSON.stringify(values, null, 2),
+      }).then((response) => response.json())
       .then((data) => {
-        onCreateExercise(data as IExercise);
-        form.reset();
+        onEditExercise(data as IExercise, "edit");
       })
+    } else {
+      fetch("api/exercise/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values, null, 2),
+      }).then((response) => response.json())
+        .then((data) => {
+          onEditExercise(data as IExercise, "create");
+        })
+    }
+    
+    form.reset();
+  }
+
+  let type = () : string => {
+    if(editExercise != null) {
+        return "Edit";
+      } else {
+        return "Create Exercise"
+      }
   }
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="default">Create Exercise</Button>
+          <Button variant="default">{type()}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Create Exercise</DialogTitle>
-            <DialogDescription>
-              Use this form to create an exercise
-            </DialogDescription>
+            <DialogTitle>{type()}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form
@@ -86,7 +145,7 @@ function CreateExercise({ onCreateExercise }: Props) {
                   <FormItem>
                     <FormLabel>Exercise Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Exercise Name" {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,7 +163,7 @@ function CreateExercise({ onCreateExercise }: Props) {
                     >
                       <FormControl className="item-center">
                         <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder={"Select Rep Type"} />
+                          <SelectValue />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -122,12 +181,28 @@ function CreateExercise({ onCreateExercise }: Props) {
               />
               <FormField
                 control={form.control}
+                name="bodyweight"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bodyweight</FormLabel>
+                    <FormControl>
+                      <div className="new-line">
+                        <Checkbox id="bodyweight" checked={field.value}
+                        onCheckedChange={field.onChange}
+                      ></Checkbox>
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="instruction"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Instruction</FormLabel>
                     <FormControl>
-                      <Input placeholder="Exercise instruction" {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -135,6 +210,9 @@ function CreateExercise({ onCreateExercise }: Props) {
               />
 
               <DialogFooter>
+                <DialogClose>
+                  <Button type="button" onClick={onDelete}>Delete Exercise</Button>
+                </DialogClose>
                 <DialogClose asChild>
                   <Button type="submit">Submit</Button>
                 </DialogClose>

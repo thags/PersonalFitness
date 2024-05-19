@@ -1,4 +1,4 @@
-# Persoal Fitness
+# Personal Fitness
 
 Fitness is personal. There are many different training methods and regiments. I like to use a mixture of different methods, but most apps and trackers are developed for a single method. What if I want to program weight lifting, running, mobility, calisthetics, flexibility and track them all? This is the goal of personal fitness.
 

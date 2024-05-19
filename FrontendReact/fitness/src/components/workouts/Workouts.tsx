@@ -50,9 +50,32 @@ function Workouts() {
     setWorkoutList(newList);
   };
 
-  let onAddExercise = (exercise: IExercise) => {
-    let newList = [...exerciseList, exercise];
-    setExerciseList(newList);
+  let onEditExercise = (
+    exercise: IExercise,
+    changeType: "edit" | "delete" | "create"
+  ) => {
+       if (exercise.id == null) return;
+       let newList: IExercise[] = [];
+
+       if (changeType === "delete") {
+         newList = [...exerciseList.filter((x) => x.id != exercise.id)];
+       } else if (changeType === "edit") {
+         newList = [
+           ...exerciseList.map((x) => {
+             if (x.id === exercise.id) {
+              x.name = exercise.name;
+              x.instruction = exercise.instruction;
+              x.bodyWeight = exercise.bodyWeight;
+              x.repType = exercise.repType;
+             }
+             return x;
+           }),
+         ] as unknown as IExercise[];
+       } else if (changeType === "create") {
+         newList = [...exerciseList, exercise];
+       }
+
+       setExerciseList(newList);
   };
 
   useEffect(() => {
@@ -78,7 +101,7 @@ function Workouts() {
           <EditWorkout
             onEditWorkout={onEditWorkout}
             exercises={exerciseList}
-            onCreateExercise={onAddExercise}
+            onEditExercise={onEditExercise}
           />
         </TableHeader>
         <TableBody className="align-content-center justify-content-center">
@@ -96,7 +119,7 @@ function Workouts() {
                       onEditWorkout={onEditWorkout}
                       editWorkout={x}
                       exercises={exerciseList}
-                      onCreateExercise={onAddExercise}
+                      onEditExercise={onEditExercise}
                     />
                     <Button>Log</Button>
                   </CardFooter>
