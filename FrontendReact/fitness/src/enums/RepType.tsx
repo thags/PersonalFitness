@@ -4,12 +4,8 @@ enum RepType {
   Weight,
   Distance,
   RepsAndWeight,
-  Bodyweight,
-  RepsAndBodyweight,
   TimeAndWeight,
-  TimeAndBodyweight,
   DistanceAndWeight,
-  DistanceAndBodyweight,
   TimeAndDistance,
 }
 
