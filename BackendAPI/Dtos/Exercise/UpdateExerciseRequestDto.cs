@@ -11,5 +11,6 @@ namespace BackendAPI.Dtos.Exercise
         [Required]
         public RepType RepType { get; set; } = RepType.Reps;
         public string Instruction { get; set; } = string.Empty;
+        public bool BodyWeight { get; set; } = false;
     }
 }

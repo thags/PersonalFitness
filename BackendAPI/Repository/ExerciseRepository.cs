@@ -68,6 +68,8 @@ namespace BackendAPI.Repository
 
             exercise.Name = exerciseDto.Name;
             exercise.Instruction = exerciseDto.Instruction;
+            exercise.BodyWeight = exerciseDto.BodyWeight;
+            exercise.RepType = exerciseDto.RepType;
 
             await _context.SaveChangesAsync();
             return exercise;

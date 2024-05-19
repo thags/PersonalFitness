@@ -1,0 +1,94 @@
+{
+  "hash": "82442b1e",
+  "configHash": "61fa701c",
+  "lockfileHash": "d18509ab",
+  "browserHash": "92e0e94e",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "9be757ed",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "611b22fb",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "6a634ae2",
+      "needsInterop": true
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "3cb1db50",
+      "needsInterop": false
+    },
+    "@radix-ui/react-slot": {
+      "src": "../../node_modules/@radix-ui/react-slot/dist/index.mjs",
+      "file": "@radix-ui_react-slot.js",
+      "fileHash": "c43f98be",
+      "needsInterop": false
+    },
+    "class-variance-authority": {
+      "src": "../../node_modules/class-variance-authority/dist/index.mjs",
+      "file": "class-variance-authority.js",
+      "fileHash": "b2d57986",
+      "needsInterop": false
+    },
+    "zod": {
+      "src": "../../node_modules/zod/lib/index.mjs",
+      "file": "zod.js",
+      "fileHash": "eb6dfe5a",
+      "needsInterop": false
+    },
+    "@hookform/resolvers/zod": {
+      "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
+      "file": "@hookform_resolvers_zod.js",
+      "fileHash": "6d4e97dc",
+      "needsInterop": false
+    },
+    "react-hook-form": {
+      "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
+      "file": "react-hook-form.js",
+      "fileHash": "f99d3482",
+      "needsInterop": false
+    },
+    "@radix-ui/react-checkbox": {
+      "src": "../../node_modules/@radix-ui/react-checkbox/dist/index.mjs",
+      "file": "@radix-ui_react-checkbox.js",
+      "fileHash": "20957f07",
+      "needsInterop": false
+    },
+    "@radix-ui/react-dialog": {
+      "src": "../../node_modules/@radix-ui/react-dialog/dist/index.mjs",
+      "file": "@radix-ui_react-dialog.js",
+      "fileHash": "a9812404",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-SHWFRVAN": {
+      "file": "chunk-SHWFRVAN.js"
+    },
+    "chunk-KB4VQC4Z": {
+      "file": "chunk-KB4VQC4Z.js"
+    },
+    "chunk-XORBNRTJ": {
+      "file": "chunk-XORBNRTJ.js"
+    },
+    "chunk-ODWGX36M": {
+      "file": "chunk-ODWGX36M.js"
+    },
+    "chunk-PMYDY72F": {
+      "file": "chunk-PMYDY72F.js"
+    },
+    "chunk-ZS7NZCD4": {
+      "file": "chunk-ZS7NZCD4.js"
+    }
+  }
+}

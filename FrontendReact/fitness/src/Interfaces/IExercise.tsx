@@ -4,7 +4,7 @@ interface IExercise {
   repType: number;
   instruction: string;
   history: [];
-  bodyweight: boolean;
+  bodyWeight: boolean;
 }
 
 export default IExercise;
