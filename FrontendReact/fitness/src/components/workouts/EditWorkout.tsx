@@ -26,14 +26,24 @@ import IExercise from "@/Interfaces/IExercise";
 import CreateExercise from "../exercises/CreateExercise";
 
 interface Props {
-  onEditWorkout: (workout: IWorkout, changeType: "edit" | "delete" | "create") => void;
+  onEditWorkout: (
+    workout: IWorkout,
+    changeType: "edit" | "delete" | "create"
+  ) => void;
   editWorkout?: IWorkout;
   exercises: IExercise[];
-  onEditExercise: (exercise: IExercise, changeType: "edit" | "delete" | "create") => void;
+  onEditExercise: (
+    exercise: IExercise,
+    changeType: "edit" | "delete" | "create"
+  ) => void;
 }
 
-function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: Props) {
-
+function EditWorkout({
+  onEditWorkout,
+  exercises,
+  editWorkout,
+  onEditExercise,
+}: Props) {
   const formSchema = z.object({
     name: z.string(),
     description: z.string(),
@@ -42,23 +52,22 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: 
   });
 
   let getDefaultValues = () => {
-      if (editWorkout != null) {
-        return {
-          name: editWorkout.name,
-          description: editWorkout.description,
-          note: editWorkout.note,
-          workoutExercises:
-            editWorkout.workoutExercises != null
+    if (editWorkout != null) {
+      return {
+        name: editWorkout.name,
+        description: editWorkout.description,
+        note: editWorkout.note,
+        workoutExercises:
+          editWorkout.workoutExercises != null
             ? editWorkout.workoutExercises
-          : [],
-        }
-      }
-      else {
-        return {
+            : [],
+      };
+    } else {
+      return {
         workoutExercises: [],
-      }
-      }
+      };
     }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,41 +76,39 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (editWorkout != null) {
-        fetch("api/workout/" + editWorkout.id?.toString(), {
+      fetch("api/workout/" + editWorkout.id?.toString(), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify(values, null, 2),
-        })
+      })
         .then((response) => response.json())
         .then((data) => {
           onEditWorkout(data as IWorkout, "edit");
         })
         .catch((error) => console.log(error));
-      }
-      else {
-        fetch("api/workout/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(values, null, 2),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        onEditWorkout(data as IWorkout, "create");
+    } else {
+      fetch("api/workout/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values, null, 2),
       })
-      .catch((error) => console.log(error));
-      }
+        .then((response) => response.json())
+        .then((data) => {
+          onEditWorkout(data as IWorkout, "create");
+        })
+        .catch((error) => console.log(error));
+    }
 
-      form.reset();
+    form.reset();
   }
 
-  function onDelete()
-  {
+  function onDelete() {
     if (editWorkout == null) return;
 
     fetch("api/workout/" + editWorkout.id?.toString(), {
@@ -111,19 +118,19 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: 
         Accept: "application/json",
       },
     })
-    .then(() => onEditWorkout(editWorkout, "delete"))
-    .catch((error) => console.log(error));
+      .then(() => onEditWorkout(editWorkout, "delete"))
+      .catch((error) => console.log(error));
 
     form.reset();
   }
 
-  let type = () : string => {
-    if(editWorkout != null) {
-        return "Edit Workout";
-      } else {
-        return "Create Workout";
-      }
-  }
+  let type = (): string => {
+    if (editWorkout != null) {
+      return "Edit Workout";
+    } else {
+      return "Create Workout";
+    }
+  };
 
   return (
     <>
@@ -177,7 +184,7 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: 
                   </FormItem>
                 )}
               />
-              <CreateExercise onEditExercise={onEditExercise}/>
+              <CreateExercise onEditExercise={onEditExercise} />
               <FormField
                 control={form.control}
                 name="workoutExercises"
@@ -222,7 +229,10 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: 
                               <FormLabel className="font-normal">
                                 {item.name}
                               </FormLabel>
-                                <CreateExercise editExercise={item} onEditExercise={onEditExercise} />
+                              <CreateExercise
+                                editExercise={item}
+                                onEditExercise={onEditExercise}
+                              />
                             </FormItem>
                           );
                         }}
@@ -234,7 +244,9 @@ function EditWorkout({ onEditWorkout, exercises, editWorkout, onEditExercise }: 
               />
               <DialogFooter>
                 <DialogClose>
-                <Button type="button" onClick={onDelete}>Delete Workout</Button>
+                  <Button type="button" onClick={onDelete}>
+                    Delete Workout
+                  </Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button type="submit">Submit</Button>

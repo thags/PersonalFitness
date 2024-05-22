@@ -30,11 +30,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox"
-
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Props {
-  onEditExercise: (exercise: IExercise, changeType: "edit" | "delete" | "create") => void;
+  onEditExercise: (
+    exercise: IExercise,
+    changeType: "edit" | "delete" | "create"
+  ) => void;
   editExercise?: IExercise;
 }
 
@@ -53,19 +55,18 @@ function CreateExercise({ onEditExercise, editExercise }: Props) {
         reptype: RepType[editExercise.repType],
         bodyweight: editExercise.bodyWeight,
         instruction: editExercise.instruction,
-      }
+      };
     } else {
       return {
         name: "",
         reptype: RepType[RepType.Reps],
         bodyweight: false,
         instruction: "",
-      }
+      };
     }
-  }
+  };
 
-  function onDelete()
-  {
+  function onDelete() {
     if (editExercise == null) return;
 
     fetch("api/exercise/" + editExercise.id?.toString(), {
@@ -75,8 +76,8 @@ function CreateExercise({ onEditExercise, editExercise }: Props) {
         Accept: "application/json",
       },
     })
-    .then(() => onEditExercise(editExercise, "delete"))
-    .catch((error) => console.log(error));
+      .then(() => onEditExercise(editExercise, "delete"))
+      .catch((error) => console.log(error));
 
     form.reset();
   }
@@ -95,10 +96,11 @@ function CreateExercise({ onEditExercise, editExercise }: Props) {
           Accept: "applicatino/json",
         },
         body: JSON.stringify(values, null, 2),
-      }).then((response) => response.json())
-      .then((data) => {
-        onEditExercise(data as IExercise, "edit");
       })
+        .then((response) => response.json())
+        .then((data) => {
+          onEditExercise(data as IExercise, "edit");
+        });
     } else {
       fetch("api/exercise/", {
         method: "POST",
@@ -107,22 +109,23 @@ function CreateExercise({ onEditExercise, editExercise }: Props) {
           Accept: "application/json",
         },
         body: JSON.stringify(values, null, 2),
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((data) => {
           onEditExercise(data as IExercise, "create");
-        })
+        });
     }
-    
+
     form.reset();
   }
 
-  let type = () : string => {
-    if(editExercise != null) {
-        return "Edit";
-      } else {
-        return "Create Exercise"
-      }
-  }
+  let type = (): string => {
+    if (editExercise != null) {
+      return "Edit";
+    } else {
+      return "Create Exercise";
+    }
+  };
   return (
     <>
       <Dialog>
@@ -187,9 +190,11 @@ function CreateExercise({ onEditExercise, editExercise }: Props) {
                     <FormLabel>Bodyweight</FormLabel>
                     <FormControl>
                       <div className="new-line">
-                        <Checkbox id="bodyweight" checked={field.value}
-                        onCheckedChange={field.onChange}
-                      ></Checkbox>
+                        <Checkbox
+                          id="bodyweight"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        ></Checkbox>
                       </div>
                     </FormControl>
                   </FormItem>
@@ -211,7 +216,9 @@ function CreateExercise({ onEditExercise, editExercise }: Props) {
 
               <DialogFooter>
                 <DialogClose>
-                  <Button type="button" onClick={onDelete}>Delete Exercise</Button>
+                  <Button type="button" onClick={onDelete}>
+                    Delete Exercise
+                  </Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button type="submit">Submit</Button>

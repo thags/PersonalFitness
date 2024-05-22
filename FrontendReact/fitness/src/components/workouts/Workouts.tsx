@@ -17,6 +17,7 @@ import {
 import { Button } from "../ui/button";
 import EditWorkout from "./EditWorkout";
 import IExercise from "@/Interfaces/IExercise";
+import LogWorkout from "./LogWorkout";
 
 function Workouts() {
   const [workoutList, setWorkoutList] = useState<IWorkout[]>([]);
@@ -54,28 +55,28 @@ function Workouts() {
     exercise: IExercise,
     changeType: "edit" | "delete" | "create"
   ) => {
-       if (exercise.id == null) return;
-       let newList: IExercise[] = [];
+    if (exercise.id == null) return;
+    let newList: IExercise[] = [];
 
-       if (changeType === "delete") {
-         newList = [...exerciseList.filter((x) => x.id != exercise.id)];
-       } else if (changeType === "edit") {
-         newList = [
-           ...exerciseList.map((x) => {
-             if (x.id === exercise.id) {
-              x.name = exercise.name;
-              x.instruction = exercise.instruction;
-              x.bodyWeight = exercise.bodyWeight;
-              x.repType = exercise.repType;
-             }
-             return x;
-           }),
-         ] as unknown as IExercise[];
-       } else if (changeType === "create") {
-         newList = [...exerciseList, exercise];
-       }
+    if (changeType === "delete") {
+      newList = [...exerciseList.filter((x) => x.id != exercise.id)];
+    } else if (changeType === "edit") {
+      newList = [
+        ...exerciseList.map((x) => {
+          if (x.id === exercise.id) {
+            x.name = exercise.name;
+            x.instruction = exercise.instruction;
+            x.bodyWeight = exercise.bodyWeight;
+            x.repType = exercise.repType;
+          }
+          return x;
+        }),
+      ] as unknown as IExercise[];
+    } else if (changeType === "create") {
+      newList = [...exerciseList, exercise];
+    }
 
-       setExerciseList(newList);
+    setExerciseList(newList);
   };
 
   useEffect(() => {
@@ -121,7 +122,7 @@ function Workouts() {
                       exercises={exerciseList}
                       onEditExercise={onEditExercise}
                     />
-                    <Button>Log</Button>
+                    <LogWorkout workout={x}></LogWorkout>
                   </CardFooter>
                 </Card>
               </TableCell>
