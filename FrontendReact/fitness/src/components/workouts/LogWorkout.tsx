@@ -123,55 +123,64 @@ function LogWorkout({ workout }: Props) {
                     <div className="mb-4">
                       <FormLabel className="text-base">Exercises</FormLabel>
                     </div>
-                    {workout.workoutExercises?.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormLabel className="font-normal">
-                          {item.name}
-                        </FormLabel>
-                        <Controller
-                          control={form.control}
-                          name={`workoutExercises[${index}].sets` as any}
-                          render={({ field }) => (
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Sets"
-                                {...field}
+                    <table className="table-auto">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2">Exercise</th>
+                          <th className="px-4 py-2">Sets</th>
+                          <th className="px-4 py-2">Reps / Duration</th>
+                          <th className="px-4 py-2">Weight</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {workout.workoutExercises?.map((item, index) => (
+                          <tr key={item.id}>
+                            <td className="border px-4 py-2">{item.name}</td>
+                            <td className="border px-4 py-2">
+                              <Controller
+                                control={form.control}
+                                name={`workoutExercises[${index}].sets` as any}
+                                render={({ field }) => (
+                                  <Input
+                                    type="number"
+                                    placeholder="Sets"
+                                    {...field}
+                                  />
+                                )}
                               />
-                            </FormControl>
-                          )}
-                        />
-                        <Controller
-                          control={form.control}
-                          name={`workoutExercises[${index}].reps` as any}
-                          render={({ field }) => (
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Reps"
-                                {...field}
+                            </td>
+                            <td className="border px-4 py-2">
+                              <Controller
+                                control={form.control}
+                                name={`workoutExercises[${index}].reps` as any}
+                                render={({ field }) => (
+                                  <Input
+                                    type="number"
+                                    placeholder="Reps"
+                                    {...field}
+                                  />
+                                )}
                               />
-                            </FormControl>
-                          )}
-                        />
-                        <Controller
-                          control={form.control}
-                          name={`workoutExercises[${index}].weight` as any}
-                          render={({ field }) => (
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Weight"
-                                {...field}
+                            </td>
+                            <td className="border px-4 py-2">
+                              <Controller
+                                control={form.control}
+                                name={
+                                  `workoutExercises[${index}].weight` as any
+                                }
+                                render={({ field }) => (
+                                  <Input
+                                    type="number"
+                                    placeholder="Weight"
+                                    {...field}
+                                  />
+                                )}
                               />
-                            </FormControl>
-                          )}
-                        />
-                      </div>
-                    ))}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                     <FormMessage />
                   </FormItem>
                 )}
